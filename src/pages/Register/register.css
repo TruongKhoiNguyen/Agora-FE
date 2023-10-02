@@ -1,0 +1,52 @@
+html, body {
+    height: 100%;
+    margin: 0
+}
+
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.register {
+    max-width: 80%;
+    max-height: 90%;
+    display: flex;
+    box-shadow: 0.1rem 0.1rem lightgray;
+}
+
+.register > div {
+    flex: 0 0 50%;
+}
+
+.banner-art > img {
+    width: 100%;
+}
+
+.form {
+    text-align: center;
+}
+
+.field > label {
+    /* label is kept for accessibility purpose */
+    position: absolute;
+    visibility: hidden;
+}
+
+.field > input {
+    margin: 0.5rem;
+    width: 65%;
+    min-height: 1.5rem;
+}
+
+.form input[type=submit] {
+    margin: 0.5rem;
+    width: 65%;
+}
