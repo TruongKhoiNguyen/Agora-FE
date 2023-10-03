@@ -1,0 +1,70 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 4rem;
+    background: #ffff;
+    display: flex;
+    align-items: center
+}
+
+.pageIconContainer {
+    height: 100%;
+    width: 4%;
+    margin-left: 0.6rem;
+    margin-right: 0.6rem;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+.iconsContainer {
+    width: 16%;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    display: flex;
+    align-items: center
+}
+
+.iconsContainer > svg {
+    margin-left: 0.8rem;
+    margin-right: 0.8rem;
+}
+
+.iconsContainer svg:hover {
+    cursor: pointer;
+    transition: all 0.2s linear;
+    color: #7BA8FF;
+}
+
+.userContainer {
+    width: 16%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.noftiContainer {
+    width: 14%;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.noftiContainer > svg {
+    cursor: pointer;
+    margin-left: 1.4rem;
+}
+
+.noftiContainer > svg:hover {
+    transition: all 0.2s linear;
+    color: #7BA8FF;
+}
+
+.userContainer > h4 {
+    margin-left: 0.4rem;
+    margin-top: 0.8rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
