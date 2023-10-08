@@ -26,8 +26,8 @@ export default function ForgotPassword() {
                             <Input type='email' id='email' placeholder='Email' />
                         </InputGroup>
 
-                        <Input type="submit" value="Continue" border="none" color="white" backgroundColor="blue.500" _hover={{ backgroundColor: "blue" }} transition="all 0.25s linear"></Input>
-                        <Input type="button" value="Go back" onClick={() => navigate("/login")} borderColor="blue.500" _hover={{ backgroundColor: "blue", color: "white" }} transition="all 0.25s linear"></Input>
+                        <Input type="submit" value="Continue" border="none" color="white" backgroundColor="blue.500" _hover={{ backgroundColor: "blue.700" }} transition="all 0.25s linear"></Input>
+                        <Input type="button" value="Go back" onClick={() => navigate("/login")} borderColor="blue.500" _hover={{ backgroundColor: "blue.700", color: "white" }} transition="all 0.25s linear"></Input>
                     </VStack>
                 </VStack>
             </HStack>
