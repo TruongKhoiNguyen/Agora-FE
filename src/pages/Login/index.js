@@ -30,7 +30,7 @@ export default function Login() {
                         </InputGroup>
 
                         <Input type="submit" value="LOGIN" border="none" color="white" backgroundColor="blue.500" _hover={{ backgroundColor: "blue.700" }} transition="all 0.25s linear"></Input>
-                        <Text as={Link} to="/reset-password" color="gray">Forgot <Text as="em" fontStyle="normal" fontWeight="semibold">Username/Password?</Text></Text>
+                        <Text as={Link} to="/forgot-password" color="gray">Forgot <Text as="em" fontStyle="normal" fontWeight="semibold">Username/Password?</Text></Text>
                     </VStack>
 
                     <Text as={Link} to="/register" color="gray" fontWeight="semibold">Create your Account <ArrowForwardIcon /></Text>
