@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import './login.css'
 import { Box, Center, HStack, Heading, Input, VStack, Image, Text, InputGroup, InputLeftElement, Icon } from '@chakra-ui/react'
 import { ArrowForwardIcon, LockIcon } from '@chakra-ui/icons'
 import { FaUserCircle } from 'react-icons/fa'
