@@ -1,8 +1,6 @@
 import React from 'react'
 
-import styles from './Navbar.module.css'
-
-import { Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
+import { Input, InputGroup, InputLeftAddon, Flex, Center, Box, Avatar, Heading } from '@chakra-ui/react'
 
 import { AiFillFacebook, AiOutlineHome, AiOutlineUser, AiOutlineMail, AiOutlineBell } from "react-icons/ai";
 import { BsMoon, BsGrid } from "react-icons/bs";
@@ -10,36 +8,82 @@ import { SearchIcon } from "@chakra-ui/icons"
 
 const Navbar = () => {
     return (
-        <div className={styles.navbar}> 
-            <div className={styles.pageIconContainer}>
-                <AiFillFacebook size={40}/>
-            </div>    
-            <div className={styles.iconsContainer}>
-                <AiOutlineHome size={28}/>
-                <BsMoon size={26}/>
-                <BsGrid size={26}/>
-            </div>
-            <InputGroup justifyContent='center' width='50%'>
-                <InputLeftAddon pointerEvents='none'>
-                    <SearchIcon color='gray.300' />
-                </InputLeftAddon>
-                <Input 
-                    borderRadius='0.4rem' 
-                    width='26rem' 
-                    padding='0.4rem' 
-                    placeholder='Search' 
-                />
-            </InputGroup>
-            <div className={styles.noftiContainer}>
-                <AiOutlineUser size={24}/>
-                <AiOutlineMail size={24}/>
-                <AiOutlineBell size={24}/>
-            </div>
-            <div className={styles.userContainer}>
-                <AiOutlineUser size={28}/>
-                <h4>Username</h4>
-            </div>
-        </div>  
+        <> 
+            <Flex
+                w='100%'
+                h='4rem'
+            >
+                <Flex 
+                    alignItems='center' 
+                    w='4%'
+                    justifyContent='center'
+                >
+                    <AiFillFacebook color='blue' size={80} />
+                </Flex>
+                <Flex
+                    alignItems='center'
+                    justifyContent='space-evenly'
+                    w='21%'
+                >
+                    <Box
+                        _hover={{
+                            cursor: 'pointer',
+                            color: 'blue'
+                        }}
+                    >
+                        <AiOutlineHome size={28} />
+                    </Box>
+                    <Box
+                        _hover={{
+                            cursor: 'pointer',
+                            color: 'blue'
+                        }}
+                    >
+                        <BsMoon size={26} />
+                    </Box>
+                    <Box
+                        _hover={{
+                            cursor: 'pointer',
+                            color: 'blue'
+                        }}
+                    >
+                        <BsGrid size={26} />
+                    </Box>
+                </Flex>
+                <Center
+                    alignItems='center'
+                    w='50%'
+                >
+                    <InputGroup justifyContent='center' width='75%'>
+                        <InputLeftAddon pointerEvents='none'>
+                            <SearchIcon color='gray.300' />
+                        </InputLeftAddon>
+                        <Input 
+                            borderRadius='0.4rem' 
+                            placeholder='Search' 
+                            w='44rem'
+                        />
+                    </InputGroup>
+                </Center>
+                <Flex
+                    alignItems='center'
+                    justifyContent='space-around'
+                    w='12%'
+                >
+                    <AiOutlineUser size={20}/>
+                    <AiOutlineMail size={20}/>
+                    <AiOutlineBell size={20}/>
+                </Flex>
+                <Flex
+                    alignItems='center'
+                    justifyContent='space-evenly'
+                    w='13%'
+                >
+                    <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' />
+                    <Heading size='md'>quyhoang</Heading>
+                </Flex>
+            </Flex>
+        </>  
     )
 }
 
