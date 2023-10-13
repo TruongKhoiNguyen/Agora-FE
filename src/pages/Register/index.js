@@ -15,31 +15,63 @@ import {
 } from '@chakra-ui/react';
 import { ArrowForwardIcon, EmailIcon, LockIcon } from '@chakra-ui/icons';
 import { FaUserCircle } from 'react-icons/fa';
+import { postDataAPI } from '../../utils/fetchData'
 
 export default function Register() {
-  return (
-    <Center bg="gray.400" height="100vh" padding="5rem">
-      <HStack bg="white" borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray">
-        <Box flex="1 1 0">
-          <Image
-            maxWidth="100%"
-            maxHeight="100%"
-            src="/Banner.svg"
-            alt="Welcome to Agora"
-            borderRadius="1rem 0 0 1rem"></Image>
-        </Box>
-        <VStack flex="1 1 0" height="100%" gap="5rem" justifyContent="center">
-          <Heading>Register</Heading>
-          <VStack as="form" gap="1.5rem">
-            <Text as="label" position="absolute" visibility="hidden" htmlFor="email">
-              Email
-            </Text>
-            <InputGroup>
-              <InputLeftElement>
-                <EmailIcon color="blue.500" />
-              </InputLeftElement>
-              <Input type="email" id="email" placeholder="Email" />
-            </InputGroup>
+    const navigate = useNavigate()
+
+    /**
+     * Parse register form data and post it to the server
+     * 
+     * @param {Event} event 
+     */
+    async function handleSubmit(event) {
+        // prevent the page from being reload
+        event.preventDefault()
+
+        const form = event.target
+        const formData = new FormData(form)
+
+        const registerData = {
+            firstName: formData.get('username'),
+            lastName: '',
+            email: formData.get('email'),
+            password: formData.get('password'),
+        }
+
+        try {
+            const res = await register(registerData)
+            console.log(res)
+
+            if (res.success) {
+                navigate('/login')
+            }
+
+        } catch (error) {
+            console.log(error.response.data)
+        }
+
+    }
+
+    return (
+        <Center height="100%" backgroundColor="#DEDEDE">
+            <HStack borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray" backgroundColor="white">
+                <Box flex="1 1 0">
+                    <Image maxWidth="100%" maxHeight="100%" src="/Banner.svg" alt='Welcome to Agora' borderRadius="1rem 0 0 1rem"></Image>
+                </Box>
+                <VStack flex="1 1 0" height="100%" gap="5rem" justifyContent="center">
+                    <Heading>
+                        Register
+                    </Heading>
+                    <VStack as="form" gap="1.5rem" method='submit' onSubmit={handleSubmit}>
+
+                        <Text as="label" position="absolute" visibility="hidden" htmlFor='email'>Email</Text>
+                        <InputGroup>
+                            <InputLeftElement>
+                                <EmailIcon color="blue.500" />
+                            </InputLeftElement>
+                            <Input type='email' id='email' placeholder='Email' name="email"></Input>
+                        </InputGroup>
 
             <Text as="label" position="absolute" visibility="hidden" htmlFor="username">
               Username
@@ -91,4 +123,20 @@ export default function Register() {
       </HStack>
     </Center>
   );
+}
+
+
+/**
+ * Send register data to server
+ * 
+ * @param {object} registerInfo 
+ * @param {string} registerInfo.firstName
+ * @param {string} registerInfo.lastName
+ * @param {string} registerInfo.email
+ * @param {string} registerInfo.password
+ * 
+ * @returns 
+ */
+async function register(registerInfo) {
+    return await postDataAPI('auth/register', { data: registerInfo }, '')
 }
