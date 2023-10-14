@@ -1,15 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import {
-  Avatar,
-  HStack,
-  VStack,
-  Text,
-  Button,
-  Divider,
-  Box,
-  Badge,
-} from "@chakra-ui/react";
+import { useState } from 'react';
+import { Avatar, HStack, VStack, Text, Button, Divider, Box, Badge } from '@chakra-ui/react';
 
 const ItemSuggestFriend = ({ avatarSrc, userName, timeStamp }) => {
   return (
@@ -46,8 +37,7 @@ const ItemFriendOnline = ({ avatarSrc, userName, isOnline, timeStamp }) => {
             bg="green.400"
             borderRadius="50%"
             w="10px"
-            h="10px"
-          ></Badge>
+            h="10px"></Badge>
         )}
       </Box>
       <Text fontSize="18px">{userName}</Text>
@@ -64,63 +54,63 @@ const RightSideBar = () => {
   //TODO: Fakedata
   const itemsDataFriendOnline = [
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      isOnline: true,
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
+      isOnline: true
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      isOnline: true,
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
+      isOnline: true
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
       isOnline: false,
-      timeStamp: "2 minutes ago",
-    },
+      timeStamp: '2 minutes ago'
+    }
   ];
   //TODO: Fakedata
   const itemsData = [
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      timeStamp: "1 hour ago",
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
+      timeStamp: '1 hour ago'
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 2",
-      timeStamp: "2 hours ago",
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 2',
+      timeStamp: '2 hours ago'
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      timeStamp: "1 hour ago",
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
+      timeStamp: '1 hour ago'
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 2",
-      timeStamp: "2 hours ago",
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 2',
+      timeStamp: '2 hours ago'
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      timeStamp: "1 hour ago",
-    },
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
+      timeStamp: '1 hour ago'
+    }
   ];
 
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    console.log("enter");
+    console.log('enter');
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
   return (
-    <VStack align="left" spacing="1rem" w="300px">
+    <VStack pos="fixed" right={0} align="left" spacing="1rem" w="300px">
       <HStack justifyContent="space-between" w="100%">
         <Text fontSize="18px" color="blackAlpha.400">
           Suggestions For You
@@ -130,8 +120,7 @@ const RightSideBar = () => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           cursor="pointer"
-          color={isHovered ? "purple.200" : "purple.400"}
-        >
+          color={isHovered ? 'purple.200' : 'purple.400'}>
           See All
         </Text>
       </HStack>
@@ -153,8 +142,7 @@ const RightSideBar = () => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           cursor="pointer"
-          color={isHovered ? "purple.200" : "purple.400"}
-        >
+          color={isHovered ? 'purple.200' : 'purple.400'}>
           See All
         </Text>
       </HStack>
