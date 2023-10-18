@@ -13,42 +13,41 @@ import {
   InputLeftElement
 } from '@chakra-ui/react';
 import { EmailIcon } from '@chakra-ui/icons';
-import { postDataAPI } from '../../utils/fetchData'
+import { postDataAPI } from '../../utils/fetchData';
 
 export default function ForgotPassword() {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    /**
-     * Send user's email to server to reset password
-     * 
-     * @param {Event} event 
-     */
-    async function handleSubmit(event) {
-        // prevent the page from being reload
-        event.preventDefault()
+  /**
+   * Send user's email to server to reset password
+   *
+   * @param {Event} event
+   */
+  async function handleSubmit(event) {
+    // prevent the page from being reload
+    event.preventDefault();
 
-        const form = event.target
-        const formData = new FormData(form)
+    const form = event.target;
+    const formData = new FormData(form);
 
-        const userData = {
-            email: formData.get("email")
-        }
+    const userData = {
+      email: formData.get('email')
+    };
 
-        try {
-            const res = await forgotPassword(userData)
-            console.log(res)
+    try {
+      const res = await forgotPassword(userData);
+      console.log(res);
 
-            if (res.success) {
-                // TODO: redirect to page to make user check their email
-                alert("Check your email!")
-            }
-
-        } catch (error) {
-            // TODO: turn off in production
-            console.log(error.message)
-            console.log(error.response?.data)
-        }
+      if (res.success) {
+        // TODO: redirect to page to make user check their email
+        alert('Check your email!');
+      }
+    } catch (error) {
+      // TODO: turn off in production
+      console.log(error.message);
+      console.log(error.response?.data);
     }
+  }
 
   return (
     <Center bg="gray.400" height="100vh" padding="5rem">
@@ -63,7 +62,7 @@ export default function ForgotPassword() {
         </Box>
         <VStack flex="1 1 0" height="100%" gap="5rem" justifyContent="center">
           <Heading>Forgot Password</Heading>
-          <VStack as="form" gap="1.5rem" method='POST' onSubmit={handleSubmit}>
+          <VStack as="form" gap="1.5rem" method="POST" onSubmit={handleSubmit}>
             <Text as="label" htmlFor="email" width="100%">
               Enter you email address
             </Text>
@@ -98,11 +97,11 @@ export default function ForgotPassword() {
 
 /**
  * Send user's email to server
- * 
- * @param {object} userData 
+ *
+ * @param {object} userData
  * @param {string} userData.email
- * @returns 
+ * @returns
  */
 async function forgotPassword(userData) {
-    return await postDataAPI('auth/forgot-password', { data: userData }, '')
+  return await postDataAPI('auth/forgot-password', { data: userData }, '');
 }

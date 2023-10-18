@@ -15,79 +15,85 @@ import {
 } from '@chakra-ui/react';
 import { ArrowForwardIcon, EmailIcon, LockIcon } from '@chakra-ui/icons';
 import { FaUserCircle } from 'react-icons/fa';
-import { postDataAPI } from '../../utils/fetchData'
+import { postDataAPI } from '../../utils/fetchData';
 
 export default function Register() {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    /**
-     * Parse register form data and post it to the server
-     * 
-     * @param {Event} event 
-     */
-    async function handleSubmit(event) {
-        // prevent the page from being reload
-        event.preventDefault()
+  /**
+   * Parse register form data and post it to the server
+   *
+   * @param {Event} event
+   */
+  async function handleSubmit(event) {
+    // prevent the page from being reload
+    event.preventDefault();
 
-        const form = event.target
-        const formData = new FormData(form)
+    const form = event.target;
+    const formData = new FormData(form);
 
-        const registerData = {
-            firstName: formData.get('firstname'),
-            lastName: formData.get('lastname'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-        }
+    const registerData = {
+      firstName: formData.get('firstname'),
+      lastName: formData.get('lastname'),
+      email: formData.get('email'),
+      password: formData.get('password')
+    };
 
-        try {
-            const res = await register(registerData)
-            console.log(res)
+    try {
+      const res = await register(registerData);
+      console.log(res);
 
-            if (res.success) {
-                navigate('/login')
-            }
-
-        } catch (error) {
-            console.log(error.response.data)
-        }
-
+      if (res.success) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.log(error.response.data);
     }
+  }
 
-    return (
-        <Center bg="gray.400" height="100vh" padding="5rem">
-            <HStack bg="white" borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray">
-                <Box flex="1 1 0">
-                    <Image maxWidth="100%" maxHeight="100%" src="/Banner.svg" alt='Welcome to Agora' borderRadius="1rem 0 0 1rem"></Image>
-                </Box>
-                <VStack flex="1 1 0" height="100%" gap="3rem" justifyContent="center">
-                    <Heading>
-                        Register
-                    </Heading>
-                    <VStack as="form" gap="1.5rem" method='submit' onSubmit={handleSubmit}>
+  return (
+    <Center bg="gray.400" height="100vh" padding="5rem">
+      <HStack bg="white" borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray">
+        <Box flex="1 1 0">
+          <Image
+            maxWidth="100%"
+            maxHeight="100%"
+            src="/Banner.svg"
+            alt="Welcome to Agora"
+            borderRadius="1rem 0 0 1rem"></Image>
+        </Box>
+        <VStack flex="1 1 0" height="100%" gap="3rem" justifyContent="center">
+          <Heading>Register</Heading>
+          <VStack as="form" gap="1.5rem" method="submit" onSubmit={handleSubmit}>
+            <Text as="label" position="absolute" visibility="hidden" htmlFor="email">
+              Email
+            </Text>
+            <InputGroup>
+              <InputLeftElement>
+                <EmailIcon color="blue.500" />
+              </InputLeftElement>
+              <Input type="email" id="email" placeholder="Email" name="email"></Input>
+            </InputGroup>
 
-                        <Text as="label" position="absolute" visibility="hidden" htmlFor='email'>Email</Text>
-                        <InputGroup>
-                            <InputLeftElement>
-                                <EmailIcon color="blue.500" />
-                            </InputLeftElement>
-                            <Input type='email' id='email' placeholder='Email' name="email"></Input>
-                        </InputGroup>
+            <Text as="label" position="absolute" visibility="hidden" htmlFor="firstname">
+              Username
+            </Text>
+            <InputGroup>
+              <InputLeftElement>
+                <Icon as={FaUserCircle} color="blue.500" />
+              </InputLeftElement>
+              <Input type="text" id="firstname" name="firstname" placeholder="First name"></Input>
+            </InputGroup>
 
-                        <Text as="label" position="absolute" visibility="hidden" htmlFor="firstname">Username</Text>
-                        <InputGroup>
-                            <InputLeftElement>
-                                <Icon as={FaUserCircle} color="blue.500" />
-                            </InputLeftElement>
-                            <Input type="text" id="firstname" name="firstname" placeholder='First name'></Input>
-                        </InputGroup>
-
-                        <Text as="label" position="absolute" visibility="hidden" htmlFor="lastname">Username</Text>
-                        <InputGroup>
-                            <InputLeftElement>
-                                <Icon as={FaUserCircle} color="blue.500" />
-                            </InputLeftElement>
-                            <Input type="text" id="lastname" name="lastname" placeholder='Last name'></Input>
-                        </InputGroup>
+            <Text as="label" position="absolute" visibility="hidden" htmlFor="lastname">
+              Username
+            </Text>
+            <InputGroup>
+              <InputLeftElement>
+                <Icon as={FaUserCircle} color="blue.500" />
+              </InputLeftElement>
+              <Input type="text" id="lastname" name="lastname" placeholder="Last name"></Input>
+            </InputGroup>
 
             <Text as="label" position="absolute" visibility="hidden" htmlFor="password">
               Password
@@ -131,18 +137,17 @@ export default function Register() {
   );
 }
 
-
 /**
  * Send register data to server
- * 
- * @param {object} registerInfo 
+ *
+ * @param {object} registerInfo
  * @param {string} registerInfo.firstName
  * @param {string} registerInfo.lastName
  * @param {string} registerInfo.email
  * @param {string} registerInfo.password
- * 
- * @returns 
+ *
+ * @returns
  */
 async function register(registerInfo) {
-    return await postDataAPI('auth/register', { data: registerInfo }, '')
+  return await postDataAPI('auth/register', { data: registerInfo }, '');
 }
