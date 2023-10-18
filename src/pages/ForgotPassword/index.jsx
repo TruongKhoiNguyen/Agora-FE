@@ -70,7 +70,7 @@ export default function ForgotPassword() {
               <InputLeftElement>
                 <EmailIcon color="blue.500" />
               </InputLeftElement>
-              <Input type="email" id="email" placeholder="Email" />
+              <Input type="email" id="email" name="email" placeholder="Email" />
             </InputGroup>
 
             <Input
