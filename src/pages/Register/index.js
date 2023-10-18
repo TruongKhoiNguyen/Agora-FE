@@ -33,8 +33,8 @@ export default function Register() {
         const formData = new FormData(form)
 
         const registerData = {
-            firstName: formData.get('username'),
-            lastName: '',
+            firstName: formData.get('firstname'),
+            lastName: formData.get('lastname'),
             email: formData.get('email'),
             password: formData.get('password'),
         }
@@ -73,15 +73,21 @@ export default function Register() {
                             <Input type='email' id='email' placeholder='Email' name="email"></Input>
                         </InputGroup>
 
-            <Text as="label" position="absolute" visibility="hidden" htmlFor="username">
-              Username
-            </Text>
-            <InputGroup>
-              <InputLeftElement>
-                <Icon as={FaUserCircle} color="blue.500" />
-              </InputLeftElement>
-              <Input type="text" id="username" name="username" placeholder="Username"></Input>
-            </InputGroup>
+                        <Text as="label" position="absolute" visibility="hidden" htmlFor="firstname">Username</Text>
+                        <InputGroup>
+                            <InputLeftElement>
+                                <Icon as={FaUserCircle} color="blue.500" />
+                            </InputLeftElement>
+                            <Input type="text" id="firstname" name="firstname" placeholder='First name'></Input>
+                        </InputGroup>
+
+                        <Text as="label" position="absolute" visibility="hidden" htmlFor="lastname">Username</Text>
+                        <InputGroup>
+                            <InputLeftElement>
+                                <Icon as={FaUserCircle} color="blue.500" />
+                            </InputLeftElement>
+                            <Input type="text" id="lastname" name="lastname" placeholder='Last name'></Input>
+                        </InputGroup>
 
             <Text as="label" position="absolute" visibility="hidden" htmlFor="password">
               Password
