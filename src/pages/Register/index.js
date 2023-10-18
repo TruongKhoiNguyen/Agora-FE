@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
   Center,
@@ -54,12 +54,12 @@ export default function Register() {
     }
 
     return (
-        <Center height="100%" backgroundColor="#DEDEDE">
-            <HStack borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray" backgroundColor="white">
+        <Center bg="gray.400" height="100vh" padding="5rem">
+            <HStack bg="white" borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray">
                 <Box flex="1 1 0">
                     <Image maxWidth="100%" maxHeight="100%" src="/Banner.svg" alt='Welcome to Agora' borderRadius="1rem 0 0 1rem"></Image>
                 </Box>
-                <VStack flex="1 1 0" height="100%" gap="5rem" justifyContent="center">
+                <VStack flex="1 1 0" height="100%" gap="3rem" justifyContent="center">
                     <Heading>
                         Register
                     </Heading>
