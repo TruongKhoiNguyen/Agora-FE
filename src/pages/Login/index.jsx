@@ -5,6 +5,11 @@ import { ArrowForwardIcon, EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { postDataAPI } from '../../utils/fetchData'
 
 export default function Login() {
+    /**
+     * Submit login form to server and store credential tokens
+     * 
+     * @param {Event} event 
+     */
     async function handleSubmit(event) {
         // prevent the page from being reload
         event.preventDefault()
@@ -81,6 +86,14 @@ export default function Login() {
 }
 
 
+/**
+ * Send login data to server
+ * 
+ * @param {object} loginData 
+ * @param {string} loginData.email
+ * @param {string} loginData.password
+ * @returns 
+ */
 async function login(loginData) {
     return postDataAPI('auth/login', { data: loginData }, '')
 }

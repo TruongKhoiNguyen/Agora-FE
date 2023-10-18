@@ -18,6 +18,11 @@ import { postDataAPI } from '../../utils/fetchData'
 export default function ForgotPassword() {
     const navigate = useNavigate()
 
+    /**
+     * Send user's email to server to reset password
+     * 
+     * @param {Event} event 
+     */
     async function handleSubmit(event) {
         // prevent the page from being reload
         event.preventDefault()
@@ -34,10 +39,12 @@ export default function ForgotPassword() {
             console.log(res)
 
             if (res.success) {
+                // TODO: redirect to page to make user check their email
                 alert("Check your email!")
             }
 
         } catch (error) {
+            // TODO: turn off in production
             console.log(error.message)
             console.log(error.response?.data)
         }
@@ -89,6 +96,13 @@ export default function ForgotPassword() {
   );
 }
 
+/**
+ * Send user's email to server
+ * 
+ * @param {object} userData 
+ * @param {string} userData.email
+ * @returns 
+ */
 async function forgotPassword(userData) {
     return await postDataAPI('auth/forgot-password', { data: userData }, '')
 }
