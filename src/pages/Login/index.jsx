@@ -35,6 +35,7 @@ export default function Login() {
             }
 
         } catch (error) {
+            // TODO: Turn off these lines in production
             console.log(error.message)
             console.log(error.response?.data)
         }
