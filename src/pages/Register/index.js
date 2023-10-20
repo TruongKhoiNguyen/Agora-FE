@@ -72,7 +72,7 @@ export default function Register() {
         </Box>
         <VStack flex="1 1 0" height="100%" gap="3rem" justifyContent="center">
           <Heading>Register</Heading>
-          <VStack as="form" gap="1.5rem" method="submit" onSubmit={handleSubmit}>
+          <VStack as="form" gap="1.5rem" method="post" onSubmit={handleSubmit}>
             <Text as="label" position="absolute" visibility="hidden" htmlFor="email">
               Email
             </Text>

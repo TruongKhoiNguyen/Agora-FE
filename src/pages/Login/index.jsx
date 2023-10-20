@@ -69,7 +69,7 @@ export default function Login() {
               <InputLeftElement>
                 <EmailIcon color="blue.500" />
               </InputLeftElement>
-              <Input type="email" id="Email" name="email" placeholder="Email"></Input>
+              <Input type="email" id="Email" name="email" placeholder="Email" required></Input>
             </InputGroup>
 
             <Text as="label" position="absolute" visibility="hidden" htmlFor="password">
@@ -79,7 +79,12 @@ export default function Login() {
               <InputLeftElement>
                 <LockIcon color="blue.500" />
               </InputLeftElement>
-              <Input type="password" id="password" name="password" placeholder="Password"></Input>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                required></Input>
             </InputGroup>
 
             <Input
