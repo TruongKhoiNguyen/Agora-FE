@@ -62,7 +62,7 @@ export default function ForgotPassword() {
         </Box>
         <VStack flex="1 1 0" height="100%" gap="5rem" justifyContent="center">
           <Heading>Forgot Password</Heading>
-          <VStack as="form" gap="1.5rem" method="POST" onSubmit={handleSubmit}>
+          <VStack as="form" gap="1.5rem" method="post" onSubmit={handleSubmit}>
             <Text as="label" htmlFor="email" width="100%">
               Enter you email address
             </Text>
@@ -70,7 +70,7 @@ export default function ForgotPassword() {
               <InputLeftElement>
                 <EmailIcon color="blue.500" />
               </InputLeftElement>
-              <Input type="email" id="email" name="email" placeholder="Email" />
+              <Input type="email" id="email" name="email" placeholder="Email" required />
             </InputGroup>
 
             <Input
