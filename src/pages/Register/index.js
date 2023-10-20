@@ -32,6 +32,14 @@ export default function Register() {
     const form = event.target;
     const formData = new FormData(form);
 
+    const password = formData.get('password');
+    const confirm = formData.get('confirm');
+
+    if (password !== confirm) {
+      form.password.setCustomValidity('Password and password confirmation must match');
+      return;
+    }
+
     const registerData = {
       firstName: formData.get('firstname'),
       lastName: formData.get('lastname'),
@@ -72,21 +80,26 @@ export default function Register() {
               <InputLeftElement>
                 <EmailIcon color="blue.500" />
               </InputLeftElement>
-              <Input type="email" id="email" placeholder="Email" name="email"></Input>
+              <Input type="email" id="email" placeholder="Email" name="email" required></Input>
             </InputGroup>
 
             <Text as="label" position="absolute" visibility="hidden" htmlFor="firstname">
-              Username
+              First name
             </Text>
             <InputGroup>
               <InputLeftElement>
                 <Icon as={FaUserCircle} color="blue.500" />
               </InputLeftElement>
-              <Input type="text" id="firstname" name="firstname" placeholder="First name"></Input>
+              <Input
+                type="text"
+                id="firstname"
+                name="firstname"
+                placeholder="First name"
+                required></Input>
             </InputGroup>
 
             <Text as="label" position="absolute" visibility="hidden" htmlFor="lastname">
-              Username
+              Last name
             </Text>
             <InputGroup>
               <InputLeftElement>
@@ -102,7 +115,12 @@ export default function Register() {
               <InputLeftElement>
                 <LockIcon color="blue.500" />
               </InputLeftElement>
-              <Input type="password" id="password" name="password" placeholder="Password"></Input>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                required></Input>
             </InputGroup>
 
             <Text as="label" position="absolute" visibility="hidden" htmlFor="confirm">
@@ -116,7 +134,8 @@ export default function Register() {
                 type="password"
                 id="confirm"
                 name="confirm"
-                placeholder="Confirm password"></Input>
+                placeholder="Confirm password"
+                required></Input>
             </InputGroup>
 
             <Input
