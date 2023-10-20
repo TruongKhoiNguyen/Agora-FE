@@ -10,27 +10,66 @@ import {
   Image,
   Text,
   InputGroup,
-  InputLeftElement,
-  Icon
+  InputLeftElement
 } from '@chakra-ui/react';
-import { ArrowForwardIcon, LockIcon } from '@chakra-ui/icons';
-import { FaUserCircle } from 'react-icons/fa';
+import { ArrowForwardIcon, EmailIcon, LockIcon } from '@chakra-ui/icons';
+import { postDataAPI } from '../../utils/fetchData';
 
 export default function Login() {
+  /**
+   * Submit login form to server and store credential tokens
+   *
+   * @param {Event} event
+   */
+  async function handleSubmit(event) {
+    // prevent the page from being reload
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const loginData = {
+      email: formData.get('email'),
+      password: formData.get('password')
+    };
+
+    try {
+      const res = await login(loginData);
+      console.log(res);
+
+      if (res.success) {
+        const token = res.metadata.token.accessToken;
+        const refreshToken = res.metadata.token.accessToken;
+        const userId = res.metadata.token.userId;
+
+        // WARNING: store token like this is prone to XSS attack
+        localStorage.setItem('token', token);
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('userId', userId);
+
+        // TODO: navigate to home page
+      }
+    } catch (error) {
+      // TODO: Turn off these lines in production
+      console.log(error.message);
+      console.log(error.response?.data);
+    }
+  }
+
   return (
-    <Center bg="gray.400" height="100vh" padding="5rem">
-      <HStack bg="white" borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray">
+    <Center height="100%" padding="5rem">
+      <HStack borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray">
         <VStack flex="1 1 0" height="100%" gap="6rem" justifyContent="center">
           <Heading>Login</Heading>
-          <VStack as="form" gap="1.5rem">
+          <VStack as="form" gap="1.5rem" method="post" onSubmit={handleSubmit}>
             <Text as="label" position="absolute" visibility="hidden" htmlFor="username">
               Username
             </Text>
             <InputGroup>
               <InputLeftElement>
-                <Icon as={FaUserCircle} color="blue.500" />
+                <EmailIcon color="blue.500" />
               </InputLeftElement>
-              <Input type="text" id="username" name="username" placeholder="Username"></Input>
+              <Input type="email" id="Email" name="email" placeholder="Email"></Input>
             </InputGroup>
 
             <Text as="label" position="absolute" visibility="hidden" htmlFor="password">
@@ -74,4 +113,16 @@ export default function Login() {
       </HStack>
     </Center>
   );
+}
+
+/**
+ * Send login data to server
+ *
+ * @param {object} loginData
+ * @param {string} loginData.email
+ * @param {string} loginData.password
+ * @returns
+ */
+async function login(loginData) {
+  return postDataAPI('auth/login', { data: loginData }, '');
 }
