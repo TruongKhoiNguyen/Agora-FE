@@ -19,7 +19,6 @@ import { postDataAPI } from '../../utils/fetchData';
 export default function Login() {
   const navigate = useNavigate();
   const toast = useToast();
-
   /**
    * Submit login form to server and store credential tokens
    *
