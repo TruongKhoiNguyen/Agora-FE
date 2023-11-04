@@ -8,11 +8,11 @@ import { Box, Flex } from '@chakra-ui/react';
 
 export default function Home() {
   return (
-    <Box>
+    <Box bg={'gray.100'} h="100vh">
       <Navbar />
       <LeftSideBar />
       <RightSideBar />
-      <Flex mt={16} flexDirection="column" justifyContent="center" w="40%" mx="auto">
+      <Flex flexDirection="column" justifyContent="center" w="40%" mx="auto">
         <CreatePost />
       </Flex>
     </Box>

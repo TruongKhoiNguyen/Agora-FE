@@ -24,7 +24,7 @@ import { SearchIcon } from '@chakra-ui/icons';
 const Navbar = () => {
   return (
     <>
-      <Flex w="100%" h="4rem">
+      <Flex w="100%" h="4rem" bg="white">
         <Flex alignItems="center" w="4%" justifyContent="center">
           <AiFillFacebook color="blue" size={80} />
         </Flex>

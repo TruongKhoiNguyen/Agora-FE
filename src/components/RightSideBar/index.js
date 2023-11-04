@@ -8,14 +8,18 @@ const ItemSuggestFriend = ({ avatarSrc, userName, timeStamp }) => {
       <Avatar name={userName} src={avatarSrc} />
       <VStack align="left" spacing="8px">
         <HStack spacing="10px">
-          <Text fontSize="18px">{userName}</Text>
+          <Text fontWeight="semibold" fontSize="18px">
+            {userName}
+          </Text>
           <Text fontSize="14px" color="blackAlpha.400">
             {timeStamp}
           </Text>
         </HStack>
         <HStack spacing="10px">
-          <Button colorScheme="blue">Accept</Button>
-          <Button colorScheme="messenger" variant="outline">
+          <Button size="sm" colorScheme="blue">
+            Accept
+          </Button>
+          <Button size="sm" colorScheme="messenger" variant="outline">
             Delete
           </Button>
         </HStack>
@@ -91,11 +95,6 @@ const RightSideBar = () => {
       avatarSrc: 'https://bit.ly/dan-abramov',
       userName: 'User 2',
       timeStamp: '2 hours ago'
-    },
-    {
-      avatarSrc: 'https://bit.ly/dan-abramov',
-      userName: 'User 1',
-      timeStamp: '1 hour ago'
     }
   ];
 
@@ -110,13 +109,21 @@ const RightSideBar = () => {
     setIsHovered(false);
   };
   return (
-    <VStack pos="fixed" right={0} align="left" spacing="1rem" w="300px">
+    <VStack
+      pos="fixed"
+      right={0}
+      align="left"
+      spacing="1rem"
+      w="300px"
+      bg="white"
+      p={2}
+      borderRadius="sm">
       <HStack justifyContent="space-between" w="100%">
-        <Text fontSize="18px" color="blackAlpha.400">
+        <Text fontWeight="medium" fontSize="16px" color="blackAlpha.400">
           Suggestions For You
         </Text>
         <Text
-          fontSize="18px"
+          fontSize="16px"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           cursor="pointer"
@@ -134,11 +141,11 @@ const RightSideBar = () => {
       ))}
       <Divider borderColor="#CDD0D4" />
       <HStack justifyContent="space-between" w="100%">
-        <Text fontSize="18px" color="blackAlpha.400">
+        <Text fontWeight="medium" fontSize="16px" color="blackAlpha.400">
           Online Friends
         </Text>
         <Text
-          fontSize="18px"
+          fontSize="16px"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           cursor="pointer"

@@ -68,66 +68,68 @@ export default function Login() {
   }
 
   return (
-    <Center height="100%" padding="5rem">
-      <HStack borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray">
-        <VStack flex="1 1 0" height="100%" gap="6rem" justifyContent="center">
-          <Heading>Login</Heading>
-          <VStack as="form" gap="1.5rem" method="post" onSubmit={handleSubmit}>
-            <Text as="label" position="absolute" visibility="hidden" htmlFor="username">
-              Username
-            </Text>
-            <InputGroup>
-              <InputLeftElement>
-                <EmailIcon color="blue.500" />
-              </InputLeftElement>
-              <Input type="email" id="Email" name="email" placeholder="Email" required></Input>
-            </InputGroup>
-
-            <Text as="label" position="absolute" visibility="hidden" htmlFor="password">
-              Password
-            </Text>
-            <InputGroup>
-              <InputLeftElement>
-                <LockIcon color="blue.500" />
-              </InputLeftElement>
-              <Input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                required></Input>
-            </InputGroup>
-
-            <Input
-              type="submit"
-              value="LOGIN"
-              border="none"
-              color="white"
-              backgroundColor="blue.500"
-              _hover={{ backgroundColor: 'blue.700' }}
-              transition="all 0.25s linear"></Input>
-            <Text as={Link} to="/forgot-password" color="gray">
-              Forgot{' '}
-              <Text as="em" fontStyle="normal" fontWeight="semibold">
-                Username/Password?
+    <Box bg="gray.200" w="100vw" h="100vh">
+      <Center height="100%" padding="5rem">
+        <HStack borderRadius="1rem" boxShadow="0.1rem 0.1rem lightgray" bg="white">
+          <VStack flex="1 1 0" height="100%" gap="6rem" justifyContent="center">
+            <Heading>Login</Heading>
+            <VStack as="form" gap="1.5rem" method="post" onSubmit={handleSubmit}>
+              <Text as="label" position="absolute" visibility="hidden" htmlFor="username">
+                Username
               </Text>
+              <InputGroup>
+                <InputLeftElement>
+                  <EmailIcon color="blue.500" />
+                </InputLeftElement>
+                <Input type="email" id="Email" name="email" placeholder="Email" required></Input>
+              </InputGroup>
+
+              <Text as="label" position="absolute" visibility="hidden" htmlFor="password">
+                Password
+              </Text>
+              <InputGroup>
+                <InputLeftElement>
+                  <LockIcon color="blue.500" />
+                </InputLeftElement>
+                <Input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  required></Input>
+              </InputGroup>
+
+              <Input
+                type="submit"
+                value="LOGIN"
+                border="none"
+                color="white"
+                backgroundColor="blue.500"
+                _hover={{ backgroundColor: 'blue.700' }}
+                transition="all 0.25s linear"></Input>
+              <Text as={Link} to="/forgot-password" color="gray">
+                Forgot{' '}
+                <Text as="em" fontStyle="normal" fontWeight="semibold">
+                  Username/Password?
+                </Text>
+              </Text>
+            </VStack>
+
+            <Text as={Link} to="/register" color="gray" fontWeight="semibold">
+              Create your Account <ArrowForwardIcon />
             </Text>
           </VStack>
-
-          <Text as={Link} to="/register" color="gray" fontWeight="semibold">
-            Create your Account <ArrowForwardIcon />
-          </Text>
-        </VStack>
-        <Box flex="1 1 0">
-          <Image
-            maxWidth="100%"
-            maxHeight="100%"
-            src="/Banner.svg"
-            alt="Welcome to Agora"
-            borderRadius="0 1rem 1rem 0"></Image>
-        </Box>
-      </HStack>
-    </Center>
+          <Box flex="1 1 0">
+            <Image
+              maxWidth="100%"
+              maxHeight="100%"
+              src="/Banner.svg"
+              alt="Welcome to Agora"
+              borderRadius="0 1rem 1rem 0"></Image>
+          </Box>
+        </HStack>
+      </Center>
+    </Box>
   );
 }
 
