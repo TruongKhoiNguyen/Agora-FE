@@ -6,7 +6,7 @@ import MessageContainer from '../../components/MessageContainer';
 
 export default function Messenger() {
   return (
-    <Flex w="100vw" h="100vh" bg="gray.100">
+    <Flex w="100vw" h="100vh" bg="gray.200">
       <MenuMessenger />
       <ConservationContainer />
       <MessageContainer />

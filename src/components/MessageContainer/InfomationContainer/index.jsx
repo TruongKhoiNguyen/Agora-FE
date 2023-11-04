@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import { Flex, Avatar, AvatarBadge, Heading, Text, IconButton } from '@chakra-ui/react';
 
 import { AiFillPhone, AiFillVideoCamera } from 'react-icons/ai';
 import { HiInformationCircle } from 'react-icons/hi';
 
-export default function InfomationContainer() {
+export default function InfomationContainer({ handleShowInformationSideBar }) {
   return (
     <Flex
       bg="gray.200"
@@ -13,6 +14,7 @@ export default function InfomationContainer() {
       alignItems="center"
       p={2}
       gap={4}
+      boxShadow="md"
       pos="relative">
       <Avatar ml={2} size="md" name="Dan Abrahmov" src="https://bit.ly/code-beast" cursor="pointer">
         <AvatarBadge boxSize={4} bg="green.500" />
@@ -40,6 +42,7 @@ export default function InfomationContainer() {
           bgColor="gray.200"
           borderRadius="full"
           color="blue.500"
+          onClick={handleShowInformationSideBar}
           icon={<HiInformationCircle size={26} />}
         />
       </Flex>

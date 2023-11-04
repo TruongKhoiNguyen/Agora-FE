@@ -21,16 +21,24 @@ export default function ConservationContainer() {
         gap={2}
         css={{
           '&::-webkit-scrollbar': {
-            width: '4px'
+            width: '1px'
           },
           '&::-webkit-scrollbar-track': {
-            width: '6px'
+            width: '4px'
           },
           '&::-webkit-scrollbar-thumb': {
             background: '#89CFF0',
-            borderRadius: '24px'
+            borderRadius: 'full'
           }
         }}>
+        <ConservationItem />
+        <ConservationItem />
+        <ConservationItem />
+        <ConservationItem />
+        <ConservationItem />
+        <ConservationItem />
+        <ConservationItem />
+        <ConservationItem />
         <ConservationItem />
         <ConservationItem />
         <ConservationItem />
