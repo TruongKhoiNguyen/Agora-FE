@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
   Center,
@@ -10,12 +10,15 @@ import {
   Image,
   Text,
   InputGroup,
-  InputLeftElement
+  InputLeftElement,
+  useToast
 } from '@chakra-ui/react';
 import { ArrowForwardIcon, EmailIcon, LockIcon } from '@chakra-ui/icons';
 import { postDataAPI } from '../../utils/fetchData';
 
 export default function Login() {
+  const navigate = useNavigate();
+  const toast = useToast();
   /**
    * Submit login form to server and store credential tokens
    *
@@ -47,7 +50,15 @@ export default function Login() {
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('userId', userId);
 
-        // TODO: navigate to home page
+        toast({
+          title: 'Login success.',
+          description: 'Login success.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'bottom-right'
+        });
+        navigate('/');
       }
     } catch (error) {
       // TODO: Turn off these lines in production
