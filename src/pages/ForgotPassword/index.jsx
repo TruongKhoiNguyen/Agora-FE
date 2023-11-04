@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -17,6 +17,12 @@ import { postDataAPI } from '../../utils/fetchData';
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, []);
 
   /**
    * Send user's email to server to reset password

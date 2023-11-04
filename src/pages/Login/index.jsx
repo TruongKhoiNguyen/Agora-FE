@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -19,6 +19,14 @@ import { postDataAPI } from '../../utils/fetchData';
 export default function Login() {
   const navigate = useNavigate();
   const toast = useToast();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, []);
+
   /**
    * Submit login form to server and store credential tokens
    *

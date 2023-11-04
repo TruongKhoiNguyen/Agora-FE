@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import {
   Box,
   Center,
@@ -17,6 +17,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, []);
 
   /**
    * Send new password to server

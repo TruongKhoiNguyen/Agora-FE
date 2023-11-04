@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -19,6 +19,12 @@ import { postDataAPI } from '../../utils/fetchData';
 
 export default function Register() {
   const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, []);
 
   /**
    * Parse register form data and post it to the server
