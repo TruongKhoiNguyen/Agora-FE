@@ -51,7 +51,7 @@ export default function Login() {
       if (res.success) {
         const token = res.metadata.token.accessToken;
         const refreshToken = res.metadata.token.accessToken;
-        const userId = res.metadata.token.userId;
+        const userId = res.metadata.userId;
 
         // WARNING: store token like this is prone to XSS attack
         localStorage.setItem('token', token);

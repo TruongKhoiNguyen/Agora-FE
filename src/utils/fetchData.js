@@ -3,9 +3,9 @@ import axios from 'axios';
 const VERSION = 'v1';
 export const BASEURL = 'http://localhost:9900';
 
-export const getDataAPI = async (url, token) => {
+export const getDataAPI = async (url, token, data) => {
   const res = await axios.get(`${BASEURL}/api/${VERSION}/${url}`, {
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}`, 'x-client-id': data.currUserId }
   });
   return res.data;
 };

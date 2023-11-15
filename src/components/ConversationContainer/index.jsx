@@ -1,11 +1,16 @@
+/* eslint-disable react/prop-types */
 import { Flex } from '@chakra-ui/react';
 import React from 'react';
 import SearchBar from './SearchBar';
 import ConservationItem from './ConservationItem';
 
-export default function ConservationContainer() {
+export default function ConservationContainer({
+  conversations,
+  setCurrConversation,
+  currConversation
+}) {
   return (
-    <Flex h="100vh" bg="gray.100" w="24rem" alignItems="center" flexDir="column" gap={1}>
+    <Flex h="100vh" bg="gray.100" minW="18rem" alignItems="center" flexDir="column" gap={1}>
       <SearchBar />
       <Flex
         w="98%"
@@ -31,22 +36,14 @@ export default function ConservationContainer() {
             borderRadius: 'full'
           }
         }}>
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
-        <ConservationItem />
+        {conversations.map((conversation) => (
+          <ConservationItem
+            setCurrConversation={setCurrConversation}
+            key={conversation._id}
+            conversation={conversation}
+            currConversation={currConversation}
+          />
+        ))}
       </Flex>
     </Flex>
   );

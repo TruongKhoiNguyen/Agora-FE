@@ -4,17 +4,17 @@ import { Flex, Avatar, AvatarBadge, Heading, Text, IconButton } from '@chakra-ui
 import { AiFillPhone, AiFillVideoCamera } from 'react-icons/ai';
 import { HiInformationCircle } from 'react-icons/hi';
 
-export default function InfomationContainer({ handleShowInformationSideBar }) {
+export default function InfomationContainer({ handleShowInformationSideBar, currConversation }) {
+  console.log(currConversation);
   return (
     <Flex
-      bg="gray.200"
+      bg="white"
       w="full"
       h={16}
       borderRadius="xl"
       alignItems="center"
       p={2}
       gap={4}
-      boxShadow="md"
       pos="relative">
       <Avatar ml={2} size="md" name="Dan Abrahmov" src="https://bit.ly/code-beast" cursor="pointer">
         <AvatarBadge boxSize={4} bg="green.500" />

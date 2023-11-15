@@ -17,7 +17,7 @@ export default function InformationSideBar() {
     <Flex
       h="99vh"
       bg="white"
-      w={458}
+      w={400}
       alignItems="center"
       flexDir="column"
       borderRadius="2xl"
