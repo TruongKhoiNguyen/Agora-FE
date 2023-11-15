@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { Flex } from '@chakra-ui/react';
-import MenuMessenger from '../../components/MenuMessenger';
-import ConservationContainer from '../../components/ConversationContainer';
-import MessageContainer from '../../components/MessageContainer';
+import MenuMessenger from '../../components/MessengerPage/MenuMessenger';
+import ConservationContainer from '../../components/MessengerPage/ConversationContainer';
+import MessageContainer from '../../components/MessengerPage/MessageContainer';
 
 import { getDataAPI } from '../../utils/fetchData';
 
@@ -25,7 +25,6 @@ export default function Messenger() {
 
   const handleSetCurrConversation = (conversation) => {
     setCurrConversation(conversation);
-    console.log(conversation);
   };
 
   return (

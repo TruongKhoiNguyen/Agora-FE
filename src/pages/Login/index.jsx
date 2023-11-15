@@ -66,7 +66,7 @@ export default function Login() {
           isClosable: true,
           position: 'bottom-right'
         });
-        navigate('/');
+        navigate('/messenger');
       }
     } catch (error) {
       // TODO: Turn off these lines in production
