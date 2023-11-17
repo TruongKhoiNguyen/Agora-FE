@@ -1,41 +1,58 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
 import { Flex } from '@chakra-ui/react';
+
 import MenuMessenger from '../../components/MessengerPage/MenuMessenger';
 import ConservationContainer from '../../components/MessengerPage/ConversationContainer';
 import MessageContainer from '../../components/MessengerPage/MessageContainer';
+import ActiveStatus from '../../components/MessengerPage/ActiveStatus';
+
+import useChatStore from '../../hooks/useChatStore';
+import useAuthStore from '../../hooks/useAuthStore';
 
 import { getDataAPI } from '../../utils/fetchData';
 
 export default function Messenger() {
-  const accessToken = localStorage.getItem('token');
-  const currUserId = localStorage.getItem('userId');
+  const setConversations = useChatStore((state) => state.setConversations);
+  const setFriends = useChatStore((state) => state.setFriends);
+  const setCurrConversation = useChatStore((state) => state.setCurrConversation);
 
-  const [conversations, setConversations] = useState([]);
-  const [currConversation, setCurrConversation] = useState(null);
+  const initLogin = useAuthStore((state) => state.initLogin);
+
+  const accessToken = localStorage.getItem('accessToken');
+  const userId = localStorage.getItem('userId');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
-    const fetchConversations = async () => {
-      const res = await getDataAPI('conversations', accessToken, { currUserId });
-      setConversations(res.metadata);
-      setCurrConversation(res.metadata[0]);
+    if (!accessToken || !userId) return;
+    const fetchConversation = async () => {
+      const response = await getDataAPI('conversations', accessToken, { userId });
+      setCurrConversation(response.metadata[0]);
+      setConversations(response.metadata);
     };
-    fetchConversations();
-  }, [accessToken]);
+    const fetchUsers = async () => {
+      const response = await getDataAPI('users', accessToken, { userId });
+      setFriends(response.filter((user) => user._id !== userId));
+    };
+    fetchConversation();
+    fetchUsers();
+  }, [accessToken, setConversations, setCurrConversation, setFriends, userId]);
 
-  const handleSetCurrConversation = (conversation) => {
-    setCurrConversation(conversation);
-  };
+  if (!accessToken || !userId) return <Navigate to={'/'} />;
+
+  initLogin({
+    accessToken,
+    userId,
+    refreshToken
+  });
 
   return (
     <Flex w="100vw" h="100vh" bg="gray.200">
+      <ActiveStatus />
       <MenuMessenger />
-      <ConservationContainer
-        setCurrConversation={handleSetCurrConversation}
-        conversations={conversations}
-        currConversation={currConversation}
-      />
-      <MessageContainer currConversation={currConversation} />
+      <ConservationContainer />
+      <MessageContainer />
     </Flex>
   );
 }

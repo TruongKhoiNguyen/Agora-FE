@@ -49,12 +49,12 @@ export default function Login() {
       console.log(res);
 
       if (res.success) {
-        const token = res.metadata.token.accessToken;
+        const accessToken = res.metadata.token.accessToken;
         const refreshToken = res.metadata.token.accessToken;
         const userId = res.metadata.userId;
 
         // WARNING: store token like this is prone to XSS attack
-        localStorage.setItem('token', token);
+        localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('userId', userId);
 
@@ -150,5 +150,5 @@ export default function Login() {
  * @returns
  */
 async function login(loginData) {
-  return postDataAPI('auth/login', { data: loginData }, '');
+  return postDataAPI('auth/login', '', { ...loginData });
 }

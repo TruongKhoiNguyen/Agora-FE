@@ -1,14 +1,48 @@
-/* eslint-disable react/prop-types */
-import { Flex } from '@chakra-ui/react';
-import React from 'react';
-import SearchBar from './SearchBar';
-import ConservationItem from './ConservationItem';
+import _ from 'lodash';
+import { useEffect } from 'react';
+import { pusherClient } from '../../../pusher';
 
-export default function ConservationContainer({
-  conversations,
-  setCurrConversation,
-  currConversation
-}) {
+import { Flex } from '@chakra-ui/react';
+
+import SearchBar from './SearchBar';
+import ConversationItem from './ConversationItem';
+
+import useAuthStore from '../../../hooks/useAuthStore';
+import useChatStore from '../../../hooks/useChatStore';
+
+export default function ConservationContainer() {
+  const userId = useAuthStore((state) => state.userId);
+
+  let conversations = useChatStore((state) => state.conversations);
+  const setConversations = useChatStore((state) => state.setConversations);
+  const updateConversations = useChatStore((state) => state.updateConversations);
+
+  if (conversations) {
+    conversations = _.orderBy(conversations, ['lastMessageAt'], ['desc']);
+  }
+
+  useEffect(() => {
+    if (!pusherClient) return;
+
+    if (!conversations) {
+      return;
+    }
+    if (!userId) {
+      return;
+    }
+    pusherClient.subscribe(userId);
+
+    pusherClient.bind('conversation:update', (data) => {
+      updateConversations(data);
+    });
+
+    return () => {
+      pusherClient.unsubscribe(userId);
+      pusherClient.unbind('conversation:update');
+      pusherClient.unbind('conversation:new');
+    };
+  }, [conversations, setConversations, updateConversations, userId]);
+
   return (
     <Flex h="100vh" bg="gray.100" minW="18rem" alignItems="center" flexDir="column" gap={1}>
       <SearchBar />
@@ -36,14 +70,9 @@ export default function ConservationContainer({
             borderRadius: 'full'
           }
         }}>
-        {conversations.map((conversation) => (
-          <ConservationItem
-            setCurrConversation={setCurrConversation}
-            key={conversation._id}
-            conversation={conversation}
-            currConversation={currConversation}
-          />
-        ))}
+        {conversations?.map((conversation, index) => {
+          return <ConversationItem key={index} conversation={conversation} />;
+        })}
       </Flex>
     </Flex>
   );

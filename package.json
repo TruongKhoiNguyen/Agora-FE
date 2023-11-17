@@ -26,7 +26,8 @@
     "sweetalert2": "^11.7.28",
     "web-vitals": "^2.1.4",
     "lodash": "^4.17.21",
-    "zustand": "^4.4.6"
+    "zustand": "^4.4.6",
+    "use-debounce": "^10.0.0"
   },
   "scripts": {
     "start": "PORT=3006 react-scripts start",
