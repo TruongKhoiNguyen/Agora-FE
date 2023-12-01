@@ -171,8 +171,8 @@ export default function MessageContainer() {
           p={4}
           gap={4}>
           <Text
-            top={-10}
-            left={4}
+            top={-8}
+            left={8}
             pos="absolute"
             h="20px"
             bgColor="transparent"

@@ -28,7 +28,12 @@ export default function Messenger() {
     if (!accessToken || !userId) return;
     const fetchConversation = async () => {
       const response = await getDataAPI('conversations', accessToken, { userId });
-      setCurrConversation(response.metadata[0]);
+      const currConv = JSON.parse(localStorage.getItem('currConv'));
+      if (currConv) {
+        setCurrConversation(currConv);
+      } else {
+        setCurrConversation(response.metadata[0]);
+      }
       setConversations(response.metadata);
     };
     const fetchUsers = async () => {

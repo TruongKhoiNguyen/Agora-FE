@@ -35,6 +35,7 @@ export default function Conversation({ conversation }) {
 
   const handleOnClick = () => {
     setCurrConv(conversation);
+    localStorage.setItem('currConv', JSON.stringify(conversation));
   };
 
   const handleTime = () => {
