@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -14,18 +13,12 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { ArrowForwardIcon, EmailIcon, LockIcon } from '@chakra-ui/icons';
-import { postDataAPI } from '../../utils/fetchData';
+
+import requestApi from '../../utils/fetchData';
 
 export default function Login() {
   const navigate = useNavigate();
   const toast = useToast();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      navigate('/');
-    }
-  }, []);
 
   /**
    * Submit login form to server and store credential tokens
@@ -46,32 +39,32 @@ export default function Login() {
 
     try {
       const res = await login(loginData);
-      console.log(res);
+      const accessToken = res.data.metadata.token.accessToken;
+      const refreshToken = res.data.metadata.token.refreshToken;
+      const userId = res.data.metadata.userId;
 
-      if (res.success) {
-        const accessToken = res.metadata.token.accessToken;
-        const refreshToken = res.metadata.token.accessToken;
-        const userId = res.metadata.userId;
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('userId', userId);
 
-        // WARNING: store token like this is prone to XSS attack
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        localStorage.setItem('userId', userId);
-
-        toast({
-          title: 'Login success.',
-          description: 'Login success.',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-          position: 'bottom-right'
-        });
-        navigate('/messenger');
-      }
+      toast({
+        title: 'Login success.',
+        description: 'Login success.',
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+        position: 'bottom-right'
+      });
+      navigate('/messenger');
     } catch (error) {
-      // TODO: Turn off these lines in production
-      console.log(error.message);
-      console.log(error.response?.data);
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom-right'
+      });
     }
   }
 
@@ -150,5 +143,5 @@ export default function Login() {
  * @returns
  */
 async function login(loginData) {
-  return postDataAPI('auth/login', '', { ...loginData });
+  return await requestApi('auth/login', 'POST', { ...loginData });
 }

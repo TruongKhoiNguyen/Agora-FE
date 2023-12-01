@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -11,20 +10,17 @@ import {
   Text,
   InputGroup,
   InputLeftElement,
-  Icon
+  Icon,
+  useToast
 } from '@chakra-ui/react';
 import { ArrowForwardIcon, EmailIcon, LockIcon } from '@chakra-ui/icons';
 import { FaUserCircle } from 'react-icons/fa';
-import { postDataAPI } from '../../utils/fetchData';
+
+import requestApi from '../../utils/fetchData';
 
 export default function Register() {
   const navigate = useNavigate();
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      navigate('/');
-    }
-  }, []);
+  const toast = useToast();
 
   /**
    * Parse register form data and post it to the server
@@ -54,14 +50,25 @@ export default function Register() {
     };
 
     try {
-      const res = await register(registerData);
-      console.log(res);
-
-      if (res.success) {
-        navigate('/login');
-      }
+      await register(registerData);
+      toast({
+        title: 'Success',
+        description: 'Register success. Please login to continue.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom-right'
+      });
+      navigate('/login');
     } catch (error) {
-      console.log(error.response.data);
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom-right'
+      });
     }
   }
 
@@ -174,5 +181,5 @@ export default function Register() {
  * @returns
  */
 async function register(registerInfo) {
-  return await postDataAPI('auth/register', { data: registerInfo }, '');
+  return await requestApi('auth/register', 'POST', registerInfo);
 }

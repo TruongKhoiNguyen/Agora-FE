@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -13,16 +12,10 @@ import {
   InputLeftElement
 } from '@chakra-ui/react';
 import { EmailIcon } from '@chakra-ui/icons';
-import { postDataAPI } from '../../utils/fetchData';
+import requestApi from '../../utils/fetchData';
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      navigate('/');
-    }
-  }, []);
 
   /**
    * Send user's email to server to reset password
@@ -109,5 +102,5 @@ export default function ForgotPassword() {
  * @returns
  */
 async function forgotPassword(userData) {
-  return await postDataAPI('auth/forgot-password', { data: userData }, '');
+  return await requestApi('auth/forgot-password', 'POST', userData);
 }

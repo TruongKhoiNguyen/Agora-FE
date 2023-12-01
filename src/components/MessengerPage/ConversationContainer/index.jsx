@@ -7,15 +7,15 @@ import { Flex } from '@chakra-ui/react';
 import SearchBar from './SearchBar';
 import ConversationItem from './ConversationItem';
 
-import useAuthStore from '../../../hooks/useAuthStore';
 import useChatStore from '../../../hooks/useChatStore';
 
 export default function ConservationContainer() {
-  const userId = useAuthStore((state) => state.userId);
+  const userId = localStorage.getItem('userId');
 
   let conversations = useChatStore((state) => state.conversations);
   const setConversations = useChatStore((state) => state.setConversations);
   const updateConversations = useChatStore((state) => state.updateConversations);
+  const newConversations = useChatStore((state) => state.newConversations);
 
   if (conversations) {
     conversations = _.orderBy(conversations, ['lastMessageAt'], ['desc']);
@@ -23,17 +23,17 @@ export default function ConservationContainer() {
 
   useEffect(() => {
     if (!pusherClient) return;
+    if (!conversations) return;
+    if (!userId) return;
 
-    if (!conversations) {
-      return;
-    }
-    if (!userId) {
-      return;
-    }
     pusherClient.subscribe(userId);
 
     pusherClient.bind('conversation:update', (data) => {
       updateConversations(data);
+    });
+
+    pusherClient.bind('conversation:new', (data) => {
+      newConversations(data);
     });
 
     return () => {

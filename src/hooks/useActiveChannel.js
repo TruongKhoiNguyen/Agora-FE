@@ -26,7 +26,6 @@ const useActiveChannel = () => {
     });
 
     channel.bind('pusher:member_added', (member) => {
-      console.log('add::', member);
       add(member.id);
     });
 

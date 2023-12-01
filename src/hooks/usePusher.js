@@ -5,7 +5,7 @@ const usePusher = () => {
     cluster: 'ap1',
     channelAuthorization: {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         'x-client-id': localStorage.getItem('userId')
       },
       endpoint: 'http://localhost:9900/api/v1/auth/pusher',

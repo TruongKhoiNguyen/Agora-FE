@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 
 import { Flex, Avatar, Heading, Text } from '@chakra-ui/react';
 
-import useAuthStore from '../../../../hooks/useAuthStore';
 import useChatStore from '../../../../hooks/useChatStore';
 
 import moment from 'moment';
@@ -14,8 +13,7 @@ export default function Conversation({ conversation }) {
   const setCurrConv = useChatStore((state) => state.setCurrConversation);
   const currConv = useChatStore((state) => state.currConversation);
 
-  const userId = useAuthStore((state) => state.userId);
-  const currUserId = localStorage.getItem('userId');
+  const userId = localStorage.getItem('userId');
 
   const hasSeen = useMemo(() => {
     if (!lastMessage) return false;
@@ -29,7 +27,7 @@ export default function Conversation({ conversation }) {
   }, [lastMessage, userId]);
 
   if (!conversation.isGroup) {
-    const otherUser = conversation.members.find((member) => member._id !== currUserId);
+    const otherUser = conversation.members.find((member) => member._id !== userId);
     conversation.name = otherUser.firstName;
   }
 
@@ -62,11 +60,18 @@ export default function Conversation({ conversation }) {
       <Avatar size="md" name={conversation.name} />
       <Flex flexDir="column" justifyContent="center" gap={2} w="full">
         <Heading size="sm">{conversation.name}</Heading>
-        {conversation.messages.length === 0 ? null : (
+        {conversation.messages.length === 0 ? (
+          <Flex justifyContent="space-between" w="full">
+            <Text fontSize="xs" color={'#1A202C'}>
+              Start a conversation
+            </Text>
+            <Text fontSize="xs">{handleTime()}</Text>
+          </Flex>
+        ) : (
           <Flex justifyContent="space-between" w="full">
             <Text fontSize="xs" color={hasSeen ? '#adb5bd' : '#1A202C'}>
               {lastMessage &&
-                lastMessage.sender.firstName +
+                lastMessage.sender.displayName +
                   ': ' +
                   lastMessage?.content.substring(0, 12) +
                   (lastMessage?.content.length > 12 ? '...' : '')}

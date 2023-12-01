@@ -14,7 +14,7 @@ import Messages from './Messages';
 
 import useChatStore from '../../../hooks/useChatStore';
 
-import { getDataAPI, postDataAPI } from '../../../utils/fetchData';
+import requestApi from '../../../utils/fetchData';
 
 let clearTimerId = null;
 
@@ -36,7 +36,6 @@ export default function MessageContainer() {
   const inputMsgRef = useRef('');
   const [debMessage] = useDebounce(message, 300);
 
-  const accessToken = localStorage.getItem('accessToken');
   const userId = localStorage.getItem('userId');
 
   const currConv = useChatStore((state) => state.currConversation);
@@ -45,24 +44,19 @@ export default function MessageContainer() {
   useEffect(() => {
     if (!currConv) return;
     if (debMessage === '') return;
-    postDataAPI(
-      'messages/typing',
-      accessToken,
-      { conversationId: currConv._id, userId },
-      accessToken
-    );
-  }, [accessToken, currConv, userId, debMessage]);
+    requestApi('messages/typing', 'POST', { conversationId: currConv._id, userId });
+  }, [currConv, userId, debMessage]);
 
   useEffect(() => {
     if (!currConv) return;
 
     const fetchMessages = async () => {
-      const res = await getDataAPI(`messages/${currConv._id}`, accessToken, { userId });
-      setMessages(res.metadata);
+      const res = await requestApi(`messages/${currConv._id}`, 'GET', { userId });
+      setMessages(res.data.metadata.reverse());
     };
 
     fetchMessages();
-  }, [accessToken, currConv, userId]);
+  }, [currConv, userId]);
 
   // scroll to bottom
   useEffect(() => {
@@ -76,7 +70,7 @@ export default function MessageContainer() {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (!inputMsgRef.current.value) return;
-    await postDataAPI('messages', accessToken, {
+    await requestApi('messages', 'POST', {
       conversationId: currConv._id,
       content: inputMsgRef.current.value,
       userId
@@ -87,8 +81,8 @@ export default function MessageContainer() {
   // Seen Message
   useEffect(() => {
     if (!currConv) return;
-    postDataAPI(`conversations/seen/${currConv._id}`, accessToken, { userId });
-  }, [currConv, accessToken, userId, messages]);
+    requestApi(`conversations/seen/${currConv._id}`, 'POST', { userId });
+  }, [currConv, userId, messages]);
 
   useEffect(() => {
     if (!pusherClient) return;
@@ -133,7 +127,7 @@ export default function MessageContainer() {
 
       clearTimeout(clearTimerId);
     };
-  }, [accessToken, currConv, setCurrConv, userId]);
+  }, [currConv, setCurrConv, userId]);
 
   // handleEmoji
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);

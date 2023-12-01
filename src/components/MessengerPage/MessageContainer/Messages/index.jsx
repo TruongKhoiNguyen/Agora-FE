@@ -31,7 +31,7 @@ export default function Messages({ messages, bottomRef }) {
         if (message.sender._id === userId) return <CurrUserMessage key={index} message={message} />;
 
         let isNextMsg = index === 0 || false;
-        if (index > 0 && messages[index - 1].sender.id === message.sender.id) {
+        if (index > 0 && messages[index - 1].sender._id === message.sender._id) {
           isNextMsg = true;
         } else {
           isNextMsg = false;

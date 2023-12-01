@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 
 import { Flex } from '@chakra-ui/react';
 
@@ -9,48 +8,34 @@ import MessageContainer from '../../components/MessengerPage/MessageContainer';
 import ActiveStatus from '../../components/MessengerPage/ActiveStatus';
 
 import useChatStore from '../../hooks/useChatStore';
-import useAuthStore from '../../hooks/useAuthStore';
 
-import { getDataAPI } from '../../utils/fetchData';
+import requestApi from '../../utils/fetchData';
 
 export default function Messenger() {
   const setConversations = useChatStore((state) => state.setConversations);
   const setFriends = useChatStore((state) => state.setFriends);
   const setCurrConversation = useChatStore((state) => state.setCurrConversation);
 
-  const initLogin = useAuthStore((state) => state.initLogin);
-
-  const accessToken = localStorage.getItem('accessToken');
   const userId = localStorage.getItem('userId');
-  const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
-    if (!accessToken || !userId) return;
     const fetchConversation = async () => {
-      const response = await getDataAPI('conversations', accessToken, { userId });
+      const response = await requestApi('conversations', 'GET');
       const currConv = JSON.parse(localStorage.getItem('currConv'));
       if (currConv) {
         setCurrConversation(currConv);
       } else {
-        setCurrConversation(response.metadata[0]);
+        setCurrConversation(response.data.metadata[0]);
       }
-      setConversations(response.metadata);
+      setConversations(response.data.metadata);
     };
     const fetchUsers = async () => {
-      const response = await getDataAPI('users', accessToken, { userId });
-      setFriends(response.filter((user) => user._id !== userId));
+      const response = await requestApi('users', 'GET');
+      setFriends(response.data.filter((user) => user._id !== userId));
     };
     fetchConversation();
     fetchUsers();
-  }, [accessToken, setConversations, setCurrConversation, setFriends, userId]);
-
-  if (!accessToken || !userId) return <Navigate to={'/'} />;
-
-  initLogin({
-    accessToken,
-    userId,
-    refreshToken
-  });
+  }, []);
 
   return (
     <Flex w="100vw" h="100vh" bg="gray.200">
