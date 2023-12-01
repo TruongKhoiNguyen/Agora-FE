@@ -33,7 +33,6 @@ export default function Conversation({ conversation }) {
 
   const handleOnClick = () => {
     setCurrConv(conversation);
-    localStorage.setItem('currConv', JSON.stringify(conversation));
   };
 
   const handleTime = () => {
@@ -47,7 +46,7 @@ export default function Conversation({ conversation }) {
     <Flex
       w="full"
       p={2}
-      onClick={handleOnClick}
+      onClick={() => handleOnClick()}
       gap={4}
       cursor="pointer"
       borderRadius="2xl"

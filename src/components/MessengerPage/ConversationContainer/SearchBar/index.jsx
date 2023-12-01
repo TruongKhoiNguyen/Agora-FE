@@ -51,8 +51,9 @@ export default function SearchBar() {
 
     if (checkedUsers.length === 1) {
       try {
+        const memberName = friends.find((user) => user._id === checkedUsers[0]).displayName;
         await requestApi('conversations', 'POST', {
-          name: '2MemsConversation',
+          name: memberName,
           isGroup: false,
           members: checkedUsers
         });

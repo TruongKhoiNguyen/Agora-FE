@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import _ from 'lodash';
 
 import { Flex } from '@chakra-ui/react';
 
@@ -25,7 +26,8 @@ export default function Messenger() {
       if (currConv) {
         setCurrConversation(currConv);
       } else {
-        setCurrConversation(response.data.metadata[0]);
+        let currConv = _.orderBy(response.data.metadata, ['lastMessageAt'], ['desc']).at(0);
+        setCurrConversation(currConv);
       }
       setConversations(response.data.metadata);
     };

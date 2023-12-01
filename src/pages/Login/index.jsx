@@ -56,6 +56,7 @@ export default function Login() {
         position: 'bottom-right'
       });
       navigate('/messenger');
+      window.location.reload();
     } catch (error) {
       toast({
         title: 'Error',
