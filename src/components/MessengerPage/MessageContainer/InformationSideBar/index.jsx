@@ -18,11 +18,11 @@ import {
   useToast
 } from '@chakra-ui/react';
 
-import { AiOutlineEdit } from 'react-icons/ai';
 import { RiImageEditLine } from 'react-icons/ri';
 
 import requestApi from '../../../../utils/fetchData';
 import useChatStore from '../../../../hooks/useChatStore';
+import ChangeConversationName from './ChangeConvName';
 
 export default function InformationSideBar() {
   const toast = useToast();
@@ -114,9 +114,7 @@ export default function InformationSideBar() {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <Button w="full" leftIcon={<AiOutlineEdit />}>
-              Change name
-            </Button>
+            <ChangeConversationName />
             <ImageUploading
               value={images}
               onChange={onChangeImagesData}
