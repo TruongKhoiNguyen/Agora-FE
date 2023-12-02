@@ -18,6 +18,9 @@ export default function ConservationContainer() {
   const updateConversations = useChatStore((state) => state.updateConversations);
   const newConversations = useChatStore((state) => state.newConversations);
 
+  const currConversation = useChatStore((state) => state.currConversation);
+  const setCurrConversation = useChatStore((state) => state.setCurrConversation);
+
   if (conversations) {
     conversations = _.orderBy(conversations, ['lastMessageAt'], ['desc']);
   }
@@ -31,6 +34,9 @@ export default function ConservationContainer() {
 
     pusherClient.bind('conversation:update', (data) => {
       updateConversations(data);
+      if (data.tag === 'update-info' && data.conversationId === currConversation._id) {
+        setCurrConversation({ ...currConversation, thumb: data.name });
+      }
     });
 
     pusherClient.bind('conversation:new', (data) => {

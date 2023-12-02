@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { pusherClient } from '../../../../pusher';
+import ImageUploading from 'react-images-uploading';
 
 import {
   Flex,
@@ -12,14 +14,18 @@ import {
   Button,
   SimpleGrid,
   Image,
-  Link
+  Link,
+  useToast
 } from '@chakra-ui/react';
 
 import { AiOutlineEdit } from 'react-icons/ai';
+import { RiImageEditLine } from 'react-icons/ri';
+
 import requestApi from '../../../../utils/fetchData';
 import useChatStore from '../../../../hooks/useChatStore';
 
 export default function InformationSideBar() {
+  const toast = useToast();
   const currConv = useChatStore((state) => state.currConversation);
 
   const [convImgs, setConvImgs] = useState([]);
@@ -38,17 +44,44 @@ export default function InformationSideBar() {
     const fetchLinkData = async () => {
       setLoadingLink(true);
       const res2 = await requestApi(`conversations/links/${currConv._id}`, 'GET');
-      console.log(res2.data.metadata);
       setConvLinks(res2.data.metadata);
       setLoadingLink(false);
     };
+
+    pusherClient.bind('message:new', fetchLinkData);
+
+    if (!currConv) return;
     fetchImgData();
     fetchLinkData();
   }, [currConv]);
 
-  return (
+  const [images, setImages] = useState([]);
+  const maxNumber = 1;
+  const onChangeImagesData = async (imageList) => {
+    setImages(imageList);
+    try {
+      const form = new FormData();
+      form.append('thumb', imageList[0].file);
+      await requestApi(`conversations/update-thumb/${currConv._id}`, 'PATCH', form);
+      setImages([]);
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: err.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom-right'
+      });
+      setImages([]);
+    }
+  };
+
+  return !currConv ? null : (
     <Flex
       h="99vh"
+      maxH="99vh"
+      overflow="auto"
       bg="white"
       w={400}
       alignItems="center"
@@ -59,7 +92,13 @@ export default function InformationSideBar() {
       p={4}
       my="0.5vh">
       <Flex flexDir="column" gap={2} cursor="pointer">
-        <Avatar m="auto" size="xl" name={currConv.name} cursor="pointer" />
+        <Avatar
+          m="auto"
+          size="xl"
+          src={currConv.isGroup && currConv.thumb}
+          name={currConv.name}
+          cursor="pointer"
+        />
         <Heading size="md" mx="auto">
           {currConv.name}
         </Heading>
@@ -76,11 +115,25 @@ export default function InformationSideBar() {
           </h2>
           <AccordionPanel pb={4}>
             <Button w="full" leftIcon={<AiOutlineEdit />}>
-              Change conservation name
+              Change name
             </Button>
-            <Button mt={2} w="full" leftIcon={<AiOutlineEdit />}>
-              Change conservation image
-            </Button>
+            <ImageUploading
+              value={images}
+              onChange={onChangeImagesData}
+              maxNumber={maxNumber}
+              dataURLKey="data_url">
+              {({ onImageUpload, dragProps }) => (
+                <Button
+                  isLoading={images.length > 0}
+                  mt={2}
+                  w="full"
+                  leftIcon={<RiImageEditLine />}
+                  onClick={onImageUpload}
+                  {...dragProps}>
+                  Change conversation image
+                </Button>
+              )}
+            </ImageUploading>
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>
@@ -128,8 +181,8 @@ export default function InformationSideBar() {
           <AccordionPanel pb={4}>
             {loadingLink ||
               convLinks.map((link, index) => (
-                <Flex key={index}>
-                  <Link>{link.link}</Link>
+                <Flex my={1} key={index}>
+                  <Link color="linkedin.400">{link.link}</Link>
                 </Flex>
               ))}
           </AccordionPanel>

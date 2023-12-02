@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Flex, Avatar, AvatarBadge, Heading, Text, IconButton } from '@chakra-ui/react';
 
 import useChatStore from '../../../../hooks/useChatStore';
@@ -6,6 +5,11 @@ import useActiveStore from '../../../../hooks/useActiveStore';
 
 import { AiFillPhone, AiFillVideoCamera } from 'react-icons/ai';
 import { HiInformationCircle } from 'react-icons/hi';
+
+import Proptypes from 'prop-types';
+InfomationContainer.propTypes = {
+  handleShowInformationSideBar: Proptypes.func
+};
 
 export default function InfomationContainer({ handleShowInformationSideBar }) {
   const currUserId = localStorage.getItem('userId');
@@ -32,7 +36,7 @@ export default function InfomationContainer({ handleShowInformationSideBar }) {
     return false;
   };
 
-  return (
+  return !currConv ? null : (
     <Flex
       bg="white"
       w="full"
@@ -42,9 +46,28 @@ export default function InfomationContainer({ handleShowInformationSideBar }) {
       p={2}
       gap={4}
       pos="relative">
-      <Avatar ml={2} size="md" name={handleConversationName()} cursor="pointer">
-        {!currConv?.isGroup && checkIsOnlineUser() && <AvatarBadge boxSize={4} bg="green.500" />}
-      </Avatar>
+      {currConv.isGroup ? (
+        <Avatar
+          ml={2}
+          src={currConv.thumb}
+          size="md"
+          name={handleConversationName()}
+          cursor="pointer"
+        />
+      ) : (
+        <Avatar
+          ml={2}
+          colorScheme="facebook"
+          size="md"
+          name={handleConversationName()}
+          cursor="pointer">
+          <AvatarBadge
+            boxSize="1.25em"
+            bg={checkIsOnlineUser() ? 'green.500' : 'gray.500'}
+            borderColor="white"
+          />
+        </Avatar>
+      )}
       <Flex flexDir="column">
         <Heading size="md">{handleConversationName()}</Heading>
         {currConv?.isGroup ? null : checkIsOnlineUser() ? (

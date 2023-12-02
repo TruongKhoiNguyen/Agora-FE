@@ -56,7 +56,7 @@ export default function Conversation({ conversation }) {
       _hover={{
         bg: 'gray.200'
       }}>
-      <Avatar size="md" name={conversation.name} />
+      <Avatar size="md" src={conversation.thumb} name={conversation.name} />
       <Flex flexDir="column" justifyContent="center" gap={2} w="full">
         <Heading size="sm">{conversation.name}</Heading>
         {conversation.messages.length === 0 ? (
@@ -72,8 +72,8 @@ export default function Conversation({ conversation }) {
               {lastMessage &&
                 lastMessage.sender.displayName +
                   ': ' +
-                  lastMessage?.content.substring(0, 12) +
-                  (lastMessage?.content.length > 12 ? '...' : '')}
+                  lastMessage?.content.substring(0, 8) +
+                  (lastMessage?.content.length > 8 ? '...' : '')}
               {!lastMessage && 'Start a conversation'}
             </Text>
             <Text fontSize="xs">{handleTime()}</Text>

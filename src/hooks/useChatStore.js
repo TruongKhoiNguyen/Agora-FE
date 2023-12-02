@@ -10,6 +10,20 @@ const useChatStore = create((set) => ({
   },
   setFriends: (friends) => set({ friends }),
   updateConversations: (data) => {
+    if (data.tag === 'update-info') {
+      return set((state) => ({
+        conversations: state.conversations.map((c) => {
+          if (c._id === data.conversationId) {
+            return {
+              ...c,
+              thumb: data.name
+            };
+          }
+          return c;
+        })
+      }));
+    }
+
     return set((state) => ({
       conversations: state.conversations.map((c) => {
         if (c._id === data.conversationId) {
