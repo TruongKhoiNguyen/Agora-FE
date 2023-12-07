@@ -24,14 +24,8 @@ const LeftSideBar = () => {
 
   return (
     <Flex>
-      <Box
-        w="250px"
-        bg="white"
-        borderRadius="10px"
-        boxShadow="0px 0px 10px rgba(0, 0, 0, 0.1)"
-        p="20px"
-        mr="20px">
-        <List spacing="2" mt="4">
+      <Box w="250px" bg="white" borderRadius="10px" p="20px" mr="20px" position="fixed" left={0}>
+        <List spacing="8" mt="4">
           <ListItem cursor="pointer" bg={selectedItem === TypePage.Friends ? 'blue.200' : 'white'}>
             <Button
               colorScheme="grey.300"
@@ -107,7 +101,9 @@ const LeftSideBar = () => {
               </HStack>
             </Button>
           </ListItem>
-          <ListItem cursor="pointer" bg={selectedItem === TypePage.Messenger ? 'blue.200' : 'white'}>
+          <ListItem
+            cursor="pointer"
+            bg={selectedItem === TypePage.Messenger ? 'blue.200' : 'white'}>
             <Button
               colorScheme="white"
               onClick={() => {

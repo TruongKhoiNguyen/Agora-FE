@@ -1,15 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import {
-  Avatar,
-  HStack,
-  VStack,
-  Text,
-  Button,
-  Divider,
-  Box,
-  Badge,
-} from "@chakra-ui/react";
+import { useState } from 'react';
+import { Avatar, HStack, VStack, Text, Button, Divider, Box, Badge } from '@chakra-ui/react';
 
 const ItemSuggestFriend = ({ avatarSrc, userName, timeStamp }) => {
   return (
@@ -17,14 +8,18 @@ const ItemSuggestFriend = ({ avatarSrc, userName, timeStamp }) => {
       <Avatar name={userName} src={avatarSrc} />
       <VStack align="left" spacing="8px">
         <HStack spacing="10px">
-          <Text fontSize="18px">{userName}</Text>
+          <Text fontWeight="semibold" fontSize="18px">
+            {userName}
+          </Text>
           <Text fontSize="14px" color="blackAlpha.400">
             {timeStamp}
           </Text>
         </HStack>
         <HStack spacing="10px">
-          <Button colorScheme="blue">Accept</Button>
-          <Button colorScheme="messenger" variant="outline">
+          <Button size="sm" colorScheme="blue">
+            Accept
+          </Button>
+          <Button size="sm" colorScheme="messenger" variant="outline">
             Delete
           </Button>
         </HStack>
@@ -46,8 +41,7 @@ const ItemFriendOnline = ({ avatarSrc, userName, isOnline, timeStamp }) => {
             bg="green.400"
             borderRadius="50%"
             w="10px"
-            h="10px"
-          ></Badge>
+            h="10px"></Badge>
         )}
       </Box>
       <Text fontSize="18px">{userName}</Text>
@@ -64,74 +58,76 @@ const RightSideBar = () => {
   //TODO: Fakedata
   const itemsDataFriendOnline = [
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      isOnline: true,
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
+      isOnline: true
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      isOnline: true,
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
+      isOnline: true
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
       isOnline: false,
-      timeStamp: "2 minutes ago",
-    },
+      timeStamp: '2 minutes ago'
+    }
   ];
   //TODO: Fakedata
   const itemsData = [
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      timeStamp: "1 hour ago",
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
+      timeStamp: '1 hour ago'
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 2",
-      timeStamp: "2 hours ago",
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 2',
+      timeStamp: '2 hours ago'
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      timeStamp: "1 hour ago",
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 1',
+      timeStamp: '1 hour ago'
     },
     {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 2",
-      timeStamp: "2 hours ago",
-    },
-    {
-      avatarSrc: "https://bit.ly/dan-abramov",
-      userName: "User 1",
-      timeStamp: "1 hour ago",
-    },
+      avatarSrc: 'https://bit.ly/dan-abramov',
+      userName: 'User 2',
+      timeStamp: '2 hours ago'
+    }
   ];
 
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    console.log("enter");
+    console.log('enter');
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
   return (
-    <VStack align="left" spacing="1rem" w="300px">
+    <VStack
+      pos="fixed"
+      right={0}
+      align="left"
+      spacing="1rem"
+      w="300px"
+      bg="white"
+      p={2}
+      borderRadius="sm">
       <HStack justifyContent="space-between" w="100%">
-        <Text fontSize="18px" color="blackAlpha.400">
+        <Text fontWeight="medium" fontSize="16px" color="blackAlpha.400">
           Suggestions For You
         </Text>
         <Text
-          fontSize="18px"
+          fontSize="16px"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           cursor="pointer"
-          color={isHovered ? "purple.200" : "purple.400"}
-        >
+          color={isHovered ? 'purple.200' : 'purple.400'}>
           See All
         </Text>
       </HStack>
@@ -145,16 +141,15 @@ const RightSideBar = () => {
       ))}
       <Divider borderColor="#CDD0D4" />
       <HStack justifyContent="space-between" w="100%">
-        <Text fontSize="18px" color="blackAlpha.400">
+        <Text fontWeight="medium" fontSize="16px" color="blackAlpha.400">
           Online Friends
         </Text>
         <Text
-          fontSize="18px"
+          fontSize="16px"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           cursor="pointer"
-          color={isHovered ? "purple.200" : "purple.400"}
-        >
+          color={isHovered ? 'purple.200' : 'purple.400'}>
           See All
         </Text>
       </HStack>
