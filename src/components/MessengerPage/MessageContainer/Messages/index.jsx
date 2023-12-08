@@ -2,6 +2,7 @@
 import { AvatarGroup, Flex, Avatar } from '@chakra-ui/react';
 import CurrUserMessage from './CurrUserMessage';
 import OtherUserMessage from './OtherUserMessage';
+import NotificationMessage from './NotificationMessage';
 
 export default function Messages({ messages, bottomRef }) {
   const userId = localStorage.getItem('userId');
@@ -28,6 +29,8 @@ export default function Messages({ messages, bottomRef }) {
         }
       }}>
       {messages?.map((message, index) => {
+        if (message.type === 'UP_INFO' || message.type === 'UP_THUMB')
+          return <NotificationMessage key={index} message={message} />;
         if (message.sender._id === userId) return <CurrUserMessage key={index} message={message} />;
 
         let isNextMsg = index === 0 || false;

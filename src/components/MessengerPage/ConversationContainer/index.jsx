@@ -34,16 +34,12 @@ export default function ConservationContainer() {
 
     pusherClient.bind('conversation:update', (data) => {
       updateConversations(data);
-      if (
-        data.tag === 'update-info' &&
-        data.updateInfo.name &&
-        data.conversationId === currConversation._id
-      ) {
+      if (data.tag === 'update-info' && data.conversationId === currConversation._id) {
         setCurrConversation({ ...currConversation, name: data.updateInfo.name });
         return;
       }
-      if (data.tag === 'update-info' && data.conversationId === currConversation._id) {
-        setCurrConversation({ ...currConversation, thumb: data.name });
+      if (data.tag === 'update-thumb' && data.conversationId === currConversation._id) {
+        setCurrConversation({ ...currConversation, thumb: data.imageUrl });
       }
     });
 

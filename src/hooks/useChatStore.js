@@ -10,7 +10,7 @@ const useChatStore = create((set) => ({
   },
   setFriends: (friends) => set({ friends }),
   updateConversations: (data) => {
-    if (data.tag === 'update-info' && data.updateInfo.name) {
+    if (data.tag === 'update-info') {
       return set((state) => ({
         conversations: state.conversations.map((c) => {
           if (c._id === data.conversationId) {
@@ -24,13 +24,13 @@ const useChatStore = create((set) => ({
       }));
     }
 
-    if (data.tag === 'update-info') {
+    if (data.tag === 'update-thumb') {
       return set((state) => ({
         conversations: state.conversations.map((c) => {
           if (c._id === data.conversationId) {
             return {
               ...c,
-              thumb: data.name
+              thumb: data.imageUrl
             };
           }
           return c;
@@ -50,7 +50,6 @@ const useChatStore = create((set) => ({
           }
           return {
             ...c,
-            lastMessageAt: data.lastMessage.createdAt,
             messages: [...c.messages, data.lastMessage]
           };
         }

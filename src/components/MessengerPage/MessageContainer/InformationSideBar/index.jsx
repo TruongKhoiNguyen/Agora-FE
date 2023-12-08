@@ -35,6 +35,8 @@ export default function InformationSideBar() {
   const [loadingLink, setLoadingLink] = useState(false);
 
   useEffect(() => {
+    if (!currConv) return;
+
     const fetchImgData = async () => {
       setLoadingImg(true);
       const res = await requestApi(`conversations/images/${currConv._id}`, 'GET');
@@ -48,11 +50,20 @@ export default function InformationSideBar() {
       setLoadingLink(false);
     };
 
-    pusherClient.bind('message:new', fetchLinkData);
+    pusherClient.bind('message:new', () => {
+      fetchLinkData();
+      fetchImgData();
+    });
 
-    if (!currConv) return;
     fetchImgData();
     fetchLinkData();
+
+    return () => {
+      pusherClient.unbind('message:new', () => {
+        fetchLinkData();
+        fetchImgData();
+      });
+    };
   }, [currConv]);
 
   const [images, setImages] = useState([]);
@@ -67,7 +78,7 @@ export default function InformationSideBar() {
     } catch (err) {
       toast({
         title: 'Error',
-        description: err.message,
+        description: 'You cannot change conversation image.',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -159,9 +170,9 @@ export default function InformationSideBar() {
           <AccordionPanel maxH={260} overflowY="auto" pb={4}>
             <SimpleGrid gap={1} columns={3}>
               {loadingImg ||
-                convImgs.map((image) => (
-                  <Flex key={image.id}>
-                    <Image maxBlockSize={40} src={image.imageUrl} alt="conversationImage" />
+                convImgs.map((image, index) => (
+                  <Flex key={index}>
+                    <Image maxBlockSize={40} src={image.image} alt="conversationImage" />
                   </Flex>
                 ))}
             </SimpleGrid>

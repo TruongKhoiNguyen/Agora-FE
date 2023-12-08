@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useMemo } from 'react';
 
-import { Flex, Avatar, Heading, Text } from '@chakra-ui/react';
+import { Flex, Avatar, Heading, Text, AvatarBadge } from '@chakra-ui/react';
 
 import useChatStore from '../../../../hooks/useChatStore';
+import useActiveStore from '../../../../hooks/useActiveStore';
 
 import moment from 'moment';
 
@@ -42,6 +43,13 @@ export default function Conversation({ conversation }) {
     return time.toString();
   };
 
+  const onlineUsers = useActiveStore((state) => state.members);
+  const checkIsOnlineUser = () => {
+    const otherUser = conversation.members.find((member) => member._id !== userId);
+    if (onlineUsers.includes(otherUser._id)) return true;
+    return false;
+  };
+
   return (
     <Flex
       w="full"
@@ -56,7 +64,11 @@ export default function Conversation({ conversation }) {
       _hover={{
         bg: 'gray.200'
       }}>
-      <Avatar size="md" src={conversation.thumb} name={conversation.name} />
+      <Avatar size="md" src={conversation.thumb} name={conversation.name}>
+        {!conversation.isGroup && checkIsOnlineUser() && (
+          <AvatarBadge boxSize="1.25em" bg="green.500" />
+        )}
+      </Avatar>
       <Flex flexDir="column" justifyContent="center" gap={2} w="full">
         <Heading size="sm">{conversation.name}</Heading>
         {conversation.messages.length === 0 ? (
@@ -64,7 +76,7 @@ export default function Conversation({ conversation }) {
             <Text fontSize="xs" color={'#1A202C'}>
               Start a conversation
             </Text>
-            <Text fontSize="xs">{handleTime()}</Text>
+            {conversation.messages.length !== 0 && <Text fontSize="xs">{handleTime()}</Text>}
           </Flex>
         ) : (
           <Flex justifyContent="space-between" w="full">
@@ -76,7 +88,7 @@ export default function Conversation({ conversation }) {
                   (lastMessage?.content.length > 8 ? '...' : '')}
               {!lastMessage && 'Start a conversation'}
             </Text>
-            <Text fontSize="xs">{handleTime()}</Text>
+            {conversation.messages.length !== 0 && <Text fontSize="xs">{handleTime()}</Text>}
           </Flex>
         )}
       </Flex>
