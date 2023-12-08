@@ -33,13 +33,19 @@ export default function ConservationContainer() {
     pusherClient.subscribe(userId);
 
     pusherClient.bind('conversation:update', (data) => {
+      console.log(data);
       updateConversations(data);
       if (data.tag === 'update-info' && data.conversationId === currConversation._id) {
         setCurrConversation({ ...currConversation, name: data.updateInfo.name });
-        return;
       }
       if (data.tag === 'update-thumb' && data.conversationId === currConversation._id) {
         setCurrConversation({ ...currConversation, thumb: data.imageUrl });
+      }
+      if (data.tag === 'update-admins' && data.conversationId === currConversation._id) {
+        setCurrConversation({
+          ...currConversation,
+          admins: data.admins
+        });
       }
     });
 

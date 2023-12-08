@@ -23,6 +23,7 @@ import { RiImageEditLine } from 'react-icons/ri';
 import requestApi from '../../../../utils/fetchData';
 import useChatStore from '../../../../hooks/useChatStore';
 import ChangeConversationName from './ChangeConvName';
+import ConversationMember from './ConversationMember';
 
 export default function InformationSideBar() {
   const toast = useToast();
@@ -154,8 +155,8 @@ export default function InformationSideBar() {
               <AccordionIcon />
             </AccordionButton>
           </h2>
-          <AccordionPanel pb={4}>
-            <Button colorScheme="blue">Invite</Button>
+          <AccordionPanel maxH="200" overflowY="auto" pb={4}>
+            <ConversationMember />
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>

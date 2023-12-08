@@ -38,6 +38,20 @@ const useChatStore = create((set) => ({
       }));
     }
 
+    if (data.tag === 'update-admins') {
+      return set((state) => ({
+        conversations: state.conversations.map((c) => {
+          if (c._id === data.conversationId) {
+            return {
+              ...c,
+              admins: data.admins
+            };
+          }
+          return c;
+        })
+      }));
+    }
+
     return set((state) => ({
       conversations: state.conversations.map((c) => {
         if (c._id === data.conversationId) {
@@ -50,6 +64,7 @@ const useChatStore = create((set) => ({
           }
           return {
             ...c,
+            lastMessageAt: data.lastMessage.createdAt,
             messages: [...c.messages, data.lastMessage]
           };
         }
