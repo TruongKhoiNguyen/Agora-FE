@@ -52,6 +52,41 @@ const useChatStore = create((set) => ({
       }));
     }
 
+    if (data.tag === 'remove-members') {
+      return set((state) => ({
+        conversations: state.conversations.map((c) => {
+          if (c._id === data.conversationId) {
+            const nemMembers = c.members.filter((m) => data.members.includes(m._id));
+            return {
+              ...c,
+              members: nemMembers
+            };
+          }
+          return c;
+        })
+      }));
+    }
+
+    if (data.tag === 'add-members') {
+      return set((state) => ({
+        conversations: state.conversations.map((c) => {
+          if (c._id === data.conversationId) {
+            const newMembers = data.members.map((m) => {
+              const friend = state.friends.find((f) => f._id === m);
+              if (friend === undefined) return data.currUser;
+              return friend;
+            });
+
+            return {
+              ...c,
+              members: [...c.members, ...newMembers.filter((m) => m !== undefined)]
+            };
+          }
+          return c;
+        })
+      }));
+    }
+
     return set((state) => ({
       conversations: state.conversations.map((c) => {
         if (c._id === data.conversationId) {

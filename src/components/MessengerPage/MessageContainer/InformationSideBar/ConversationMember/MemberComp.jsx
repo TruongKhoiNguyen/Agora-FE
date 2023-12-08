@@ -18,34 +18,18 @@ import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 
 import Proptypes from 'prop-types';
 MemberComp.propTypes = {
-  member: Proptypes.object
+  member: Proptypes.object,
+  isGroup: Proptypes.bool
 };
 
 import useChatStore from '../../../../../hooks/useChatStore';
 
 import requestApi from '../../../../../utils/fetchData';
 
-export default function MemberComp({ member }) {
+export default function MemberComp({ member, isGroup }) {
   const toast = useToast();
   const currConv = useChatStore((state) => state.currConversation);
   const currUserId = localStorage.getItem('userId');
-
-  //   const handleRemoveAdminRole = async () => {
-  //     try {
-  //       const res = await requestApi(`conversations/add-admin/${currConv._id}`, 'PATCH', {
-  //         memberId: member._id
-  //       });
-  //       console.log(res);
-  //     } catch (err) {
-  //       toast({
-  //         title: 'Error',
-  //         description: err.response.data.message,
-  //         status: 'error',
-  //         duration: 3000,
-  //         isClosable: true
-  //       });
-  //     }
-  //   };
 
   const handleAddAdminRole = async () => {
     try {
@@ -105,7 +89,7 @@ export default function MemberComp({ member }) {
           {isConvAdmin(currConv, member) ? 'Admin' : 'Member'}
         </Text>
       </Flex>
-      {member._id === currUserId || (
+      {isGroup && member._id !== currUserId && (
         <Menu>
           <MenuButton
             as={IconButton}

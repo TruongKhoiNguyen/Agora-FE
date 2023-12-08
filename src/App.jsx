@@ -7,6 +7,8 @@ import ResetPassword from './pages/ResetPassword';
 import PrivateRouter from './privateRoute';
 import Messenger from './pages/Messenger';
 
+import { Navigate } from 'react-router-dom';
+
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +25,7 @@ function App() {
             </PrivateRouter>
           }
         />
+        <Route path="/" element={<Navigate to="/messenger" />} />
       </Routes>
     </BrowserRouter>
   );

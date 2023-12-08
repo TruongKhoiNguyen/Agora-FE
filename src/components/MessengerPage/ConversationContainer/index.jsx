@@ -12,6 +12,7 @@ import useChatStore from '../../../hooks/useChatStore';
 
 export default function ConservationContainer() {
   const userId = localStorage.getItem('userId');
+  const currUser = JSON.parse(localStorage.getItem('currUser'));
 
   let conversations = useChatStore((state) => state.conversations);
   const setConversations = useChatStore((state) => state.setConversations);
@@ -20,6 +21,8 @@ export default function ConservationContainer() {
 
   const currConversation = useChatStore((state) => state.currConversation);
   const setCurrConversation = useChatStore((state) => state.setCurrConversation);
+
+  const friends = useChatStore((state) => state.friends);
 
   if (conversations) {
     conversations = _.orderBy(conversations, ['lastMessageAt'], ['desc']);
@@ -32,8 +35,8 @@ export default function ConservationContainer() {
 
     pusherClient.subscribe(userId);
 
-    pusherClient.bind('conversation:update', (data) => {
-      console.log(data);
+    pusherClient.bind('conversation:update', (res) => {
+      const data = { ...res, currUser: currUser };
       updateConversations(data);
       if (data.tag === 'update-info' && data.conversationId === currConversation._id) {
         setCurrConversation({ ...currConversation, name: data.updateInfo.name });
@@ -45,6 +48,24 @@ export default function ConservationContainer() {
         setCurrConversation({
           ...currConversation,
           admins: data.admins
+        });
+      }
+      if (data.tag === 'remove-members' && data.conversationId === currConversation._id) {
+        const nemMembers = currConversation.members.filter((m) => data.members.includes(m._id));
+        setCurrConversation({
+          ...currConversation,
+          members: nemMembers
+        });
+      }
+      if (data.tag === 'add-members' && data.conversationId === currConversation._id) {
+        const newMembers = data.members.map((m) => {
+          const friend = friends.find((f) => f._id === m);
+          if (friend === undefined) return data.currUser;
+          return friend;
+        });
+        setCurrConversation({
+          ...currConversation,
+          members: [...currConversation.members, ...newMembers]
         });
       }
     });
