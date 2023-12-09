@@ -61,8 +61,8 @@ export default function ChangeConversationName() {
     } catch (err) {
       toast({
         title: 'Error.',
-        description: err.message,
-        status: 'error',
+        description: 'You cannot change conversation name.',
+        status: 'info',
         position: 'bottom-right',
         duration: 9000,
         isClosable: true

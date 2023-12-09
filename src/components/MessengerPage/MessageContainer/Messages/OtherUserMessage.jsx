@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
-import { Avatar, Flex, Text, Tooltip } from '@chakra-ui/react';
+import { Avatar, Flex, Text, Tooltip, Image } from '@chakra-ui/react';
 
 import moment from 'moment';
+
+import useChatStore from '../../../../hooks/useChatStore';
 
 export default function OtherUserMessage({ message, scrollRef, isNextMsg }) {
   const getTimeStamp = () => {
@@ -9,24 +11,46 @@ export default function OtherUserMessage({ message, scrollRef, isNextMsg }) {
     return time.toString();
   };
 
+  const movedToMsgId = useChatStore((state) => state.movedToMsgId);
+
   return (
-    <Flex ref={scrollRef} mt={1} pl={4} w="100%" gap={2} justifyContent="start" alignItems="center">
+    <Flex
+      ref={movedToMsgId === message._id ? scrollRef : null}
+      mt={1}
+      pl={4}
+      w="100%"
+      gap={2}
+      justifyContent="start"
+      alignItems="center">
       {isNextMsg === true ? (
         <Flex w="8" />
       ) : (
         <Avatar alignSelf="end" size="sm" name={message.sender.firstName} />
       )}
-      <Flex maxW="60%" gap={1} flexDir="column">
-        {isNextMsg === true ? null : (
-          <Text fontSize="sm" fontWeight="normal">
-            {message.sender.firstName}
-          </Text>
-        )}
+      <Flex gap={1} flexDir="column">
         <Tooltip label={getTimeStamp()} bg="gray.500" aria-label="A tooltip">
-          <Text bg="gray.200" borderRadius="2xl" px={4} py={1}>
+          <Text w="fit-content" bg="gray.200" borderRadius="2xl" px={4} py={1}>
             {message.content}
           </Text>
         </Tooltip>
+        {message.images.map((image, index) => {
+          return (
+            <Tooltip
+              key={index}
+              placement="right"
+              label={getTimeStamp()}
+              bg="gray.500"
+              aria-label="A tooltip">
+              <Image
+                w="fit-content"
+                loading="lazy"
+                maxBlockSize={300}
+                src={image}
+                borderRadius="2xl"
+              />
+            </Tooltip>
+          );
+        })}
       </Flex>
     </Flex>
   );

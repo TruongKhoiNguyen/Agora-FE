@@ -47,6 +47,9 @@ export default function Login() {
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('userId', userId);
 
+      const user = await requestApi(`users/me`, 'GET');
+      localStorage.setItem('currUser', JSON.stringify(user.data.metadata));
+
       toast({
         title: 'Login success.',
         description: 'Login success.',

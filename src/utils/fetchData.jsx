@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BASEURL = 'http://localhost:9900/api/v1';
+export const BASEURL = 'https://thinhnguyen.live/api/v1';
 
 export default function requestApi(endpoint, method, body, responseType = 'json') {
   const headers = {
@@ -35,7 +35,7 @@ export default function requestApi(endpoint, method, body, responseType = 'json'
     },
     async (error) => {
       const originalConfig = error.config;
-      if (error.response && error.response.status === 419) {
+      if (error.response && error.response.status === 401) {
         try {
           const refreshToken = localStorage.getItem('refreshToken');
           if (!refreshToken) {
@@ -44,7 +44,7 @@ export default function requestApi(endpoint, method, body, responseType = 'json'
           const result = await instance.post(
             `${BASEURL}/auth/refresh`,
             {
-              refresh_token: refreshToken
+              refreshToken: refreshToken
             },
             {
               headers: {
