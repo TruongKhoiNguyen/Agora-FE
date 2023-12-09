@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { Flex, Avatar, Heading, Text, AvatarBadge } from '@chakra-ui/react';
 
@@ -7,8 +7,6 @@ import useChatStore from '../../../../hooks/useChatStore';
 import useActiveStore from '../../../../hooks/useActiveStore';
 
 import moment from 'moment';
-
-import requestApi from '../../../../utils/fetchData';
 
 export default function Conversation({ conversation }) {
   const lastMessage = conversation.messages[conversation.messages.length - 1];
@@ -37,19 +35,6 @@ export default function Conversation({ conversation }) {
   const handleOnClick = () => {
     setCurrConv(conversation);
   };
-
-  const [notSeenCount, setNotSeenCount] = useState(0);
-
-  useEffect(() => {
-    const fetchDataNotSeen = async () => {
-      const res = await requestApi(`conversations/not-seen/message`, 'GET');
-      const data = res.data.metadata;
-      const notSeen = data.filter((item) => item.conversationId === conversation._id).length;
-      setNotSeenCount(notSeen);
-    };
-
-    fetchDataNotSeen();
-  }, [conversation]);
 
   const handleTime = () => {
     const time = moment(conversation.messages[conversation.messages.length - 1]?.createdAt).format(
@@ -107,10 +92,6 @@ export default function Conversation({ conversation }) {
             {conversation.messages.length !== 0 && <Text fontSize="xs">{handleTime()}</Text>}
           </Flex>
         )}
-      </Flex>
-
-      <Flex fontSize="xs" position="absolute" top={1} right={4}>
-        {notSeenCount === 0 ? '' : notSeenCount > 9 ? '9+' : notSeenCount}
       </Flex>
     </Flex>
   );
