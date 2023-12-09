@@ -9,6 +9,7 @@ import SearchBar from './SearchBar';
 import ConversationItem from './ConversationItem';
 
 import useChatStore from '../../../hooks/useChatStore';
+import requestApi from '../../../utils/fetchData';
 
 export default function ConservationContainer() {
   const userId = localStorage.getItem('userId');
@@ -35,8 +36,9 @@ export default function ConservationContainer() {
 
     pusherClient.subscribe(userId);
 
-    pusherClient.bind('conversation:update', (res) => {
-      const data = { ...res, currUser: currUser };
+    pusherClient.bind('conversation:update', async (res) => {
+      const resNotSeen = await requestApi(`conversations/not-seen/message`, 'GET');
+      const data = { ...res, currUser: currUser, notSeen: resNotSeen.data.metadata };
       updateConversations(data);
       if (data.tag === 'update-info' && data.conversationId === currConversation._id) {
         setCurrConversation({ ...currConversation, name: data.updateInfo.name });
@@ -56,6 +58,9 @@ export default function ConservationContainer() {
           ...currConversation,
           members: nemMembers
         });
+      }
+      if (data.tag === 'is-leave-conversation' && data.conversationId === currConversation._id) {
+        setCurrConversation(conversations[0]);
       }
       if (data.tag === 'add-members' && data.conversationId === currConversation._id) {
         const newMembers = data.members.map((m) => {

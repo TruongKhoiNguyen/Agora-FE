@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { pusherClient } from '../../../../pusher';
 import ImageUploading from 'react-images-uploading';
 
 import {
@@ -19,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 
 import { RiImageEditLine } from 'react-icons/ri';
+import { IoMdLogOut } from 'react-icons/io';
 
 import requestApi from '../../../../utils/fetchData';
 import useChatStore from '../../../../hooks/useChatStore';
@@ -51,20 +51,8 @@ export default function InformationSideBar() {
       setLoadingLink(false);
     };
 
-    pusherClient.bind('message:new', () => {
-      fetchLinkData();
-      fetchImgData();
-    });
-
     fetchImgData();
     fetchLinkData();
-
-    return () => {
-      pusherClient.unbind('message:new', () => {
-        fetchLinkData();
-        fetchImgData();
-      });
-    };
   }, [currConv]);
 
   const [images, setImages] = useState([]);
@@ -88,6 +76,31 @@ export default function InformationSideBar() {
       setImages([]);
     }
   };
+
+  const handleLeaveConversation = async () => {
+    try {
+      await requestApi(`conversations/leave-conversation/${currConv._id}`, 'PATCH');
+      toast({
+        title: 'Success',
+        description: 'You have left this conversation.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom-right'
+      });
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: 'You cannot leave this conversation.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom-right'
+      });
+    }
+  };
+
+  const setMovedToMsgId = useChatStore((state) => state.setMovedToMsgId);
 
   return !currConv ? null : (
     <Flex
@@ -144,6 +157,11 @@ export default function InformationSideBar() {
                 </Button>
               )}
             </ImageUploading>
+            {currConv.isGroup && (
+              <Button leftIcon={<IoMdLogOut />} mt={2} w="full" onClick={handleLeaveConversation}>
+                Leave Conversation
+              </Button>
+            )}
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>
@@ -173,7 +191,12 @@ export default function InformationSideBar() {
               {loadingImg ||
                 convImgs.map((image, index) => (
                   <Flex key={index}>
-                    <Image maxBlockSize={40} src={image.image} alt="conversationImage" />
+                    <Image
+                      onClick={() => setMovedToMsgId(image.messageId)}
+                      maxBlockSize={40}
+                      src={image.image}
+                      alt="conversationImage"
+                    />
                   </Flex>
                 ))}
             </SimpleGrid>
@@ -188,11 +211,13 @@ export default function InformationSideBar() {
               <AccordionIcon />
             </AccordionButton>
           </h2>
-          <AccordionPanel pb={4}>
+          <AccordionPanel maxH={260} overflowY="auto" pb={4}>
             {loadingLink ||
               convLinks.map((link, index) => (
                 <Flex my={1} key={index}>
-                  <Link color="linkedin.400">{link.link}</Link>
+                  <Link onClick={() => setMovedToMsgId(link.messageId)} color="linkedin.400">
+                    {link.link}
+                  </Link>
                 </Flex>
               ))}
           </AccordionPanel>

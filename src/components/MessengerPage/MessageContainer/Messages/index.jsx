@@ -4,8 +4,12 @@ import CurrUserMessage from './CurrUserMessage';
 import OtherUserMessage from './OtherUserMessage';
 import NotificationMessage from './NotificationMessage';
 
+import useChatStore from '../../../../hooks/useChatStore';
+
 export default function Messages({ messages, bottomRef }) {
   const userId = localStorage.getItem('userId');
+
+  const movedToMsgId = useChatStore((state) => state.movedToMsgId);
 
   return (
     <Flex
@@ -16,6 +20,7 @@ export default function Messages({ messages, bottomRef }) {
       bg="white"
       borderRadius="xl"
       my={1}
+      gap={2}
       css={{
         '&::-webkit-scrollbar': {
           width: '1px'
@@ -29,8 +34,10 @@ export default function Messages({ messages, bottomRef }) {
         }
       }}>
       {messages?.map((message, index) => {
-        if (message.type !== 'IMAGE') return <NotificationMessage key={index} message={message} />;
-        if (message.sender._id === userId) return <CurrUserMessage key={index} message={message} />;
+        if (message.type !== 'IMAGE' && message.type !== 'TEXT')
+          return <NotificationMessage key={index} message={message} />;
+        if (message.sender._id === userId)
+          return <CurrUserMessage scrollRef={bottomRef} key={index} message={message} />;
 
         let isNextMsg = index === 0 || false;
         if (index > 0 && messages[index - 1].sender._id === message.sender._id) {
@@ -39,7 +46,14 @@ export default function Messages({ messages, bottomRef }) {
           isNextMsg = false;
         }
 
-        return <OtherUserMessage isNextMsg={isNextMsg} key={index} message={message} />;
+        return (
+          <OtherUserMessage
+            isNextMsg={isNextMsg}
+            scrollRef={bottomRef}
+            key={index}
+            message={message}
+          />
+        );
       })}
       <AvatarGroup my={2} size="sm" max={4} mr={4} alignSelf="flex-end">
         {messages &&
@@ -47,7 +61,7 @@ export default function Messages({ messages, bottomRef }) {
             return user._id !== userId && <Avatar key={user._id} name={user.firstName} />;
           })}
       </AvatarGroup>
-      <Flex ref={bottomRef} my={4} />
+      {!movedToMsgId && <Flex ref={bottomRef} my={4} />}
     </Flex>
   );
 }

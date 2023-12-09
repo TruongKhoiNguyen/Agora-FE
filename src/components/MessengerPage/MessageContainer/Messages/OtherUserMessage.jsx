@@ -3,14 +3,25 @@ import { Avatar, Flex, Text, Tooltip, Image } from '@chakra-ui/react';
 
 import moment from 'moment';
 
+import useChatStore from '../../../../hooks/useChatStore';
+
 export default function OtherUserMessage({ message, scrollRef, isNextMsg }) {
   const getTimeStamp = () => {
     const time = moment(message.createdAt).format('h:mm a DD/MM/YYYY');
     return time.toString();
   };
 
+  const movedToMsgId = useChatStore((state) => state.movedToMsgId);
+
   return (
-    <Flex ref={scrollRef} mt={1} pl={4} w="100%" gap={2} justifyContent="start" alignItems="center">
+    <Flex
+      ref={movedToMsgId === message._id ? scrollRef : null}
+      mt={1}
+      pl={4}
+      w="100%"
+      gap={2}
+      justifyContent="start"
+      alignItems="center">
       {isNextMsg === true ? (
         <Flex w="8" />
       ) : (

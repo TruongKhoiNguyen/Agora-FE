@@ -55,7 +55,7 @@ export default function MessageContainer() {
     if (!currConv) return;
 
     const fetchMessages = async () => {
-      const res = await requestApi(`messages/${currConv._id}`, 'GET', { userId });
+      const res = await requestApi(`messages/${currConv._id}?limit=100`, 'GET', { userId });
       setMessages(res.data.metadata.reverse());
     };
 
@@ -65,11 +65,18 @@ export default function MessageContainer() {
   // scroll to bottom
   useEffect(() => {
     setTimeout(() => {
-      bottomRef?.current?.scrollIntoView({
-        behavior: 'smooth'
-      });
+      bottomRef?.current?.scrollIntoView({});
     }, 100);
   }, [messages]);
+
+  const movedToMsgId = useChatStore((state) => state.movedToMsgId);
+  const setMovedToMsgId = useChatStore((state) => state.setMovedToMsgId);
+  useEffect(() => {
+    if (!movedToMsgId) return;
+    setMessages(messages);
+    bottomRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    setMovedToMsgId(null);
+  }, [movedToMsgId]);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();

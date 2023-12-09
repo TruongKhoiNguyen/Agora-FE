@@ -4,6 +4,8 @@ const useChatStore = create((set) => ({
   conversations: null,
   currConversation: null,
   friends: null,
+  movedToMsgId: null,
+  setMovedToMsgId: (movedToMsgId) => set({ movedToMsgId }),
   setConversations: (conversations) => set({ conversations }),
   setCurrConversation: (currConversation) => {
     return set({ currConversation });
@@ -64,6 +66,12 @@ const useChatStore = create((set) => ({
           }
           return c;
         })
+      }));
+    }
+
+    if (data.tag === 'is-leave-conversation') {
+      return set((state) => ({
+        conversations: state.conversations.filter((c) => c._id !== data.conversationId)
       }));
     }
 

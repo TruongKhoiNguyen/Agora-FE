@@ -2,6 +2,7 @@
 import { Flex, Text, Tooltip, Image } from '@chakra-ui/react';
 
 import moment from 'moment';
+import useChatStore from '../../../../hooks/useChatStore';
 
 export default function CurrUserMessage({ message, scrollRef }) {
   const getTimeStamp = () => {
@@ -9,10 +10,12 @@ export default function CurrUserMessage({ message, scrollRef }) {
     return time.toString();
   };
 
+  const movedToMsgId = useChatStore((state) => state.movedToMsgId);
+
   return (
     <Flex
       flexDir="column"
-      ref={scrollRef}
+      ref={movedToMsgId === message._id ? scrollRef : null}
       pr={4}
       pt={1}
       w="100%"
